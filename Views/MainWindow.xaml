@@ -1,0 +1,393 @@
+﻿<Window x:Class="EulerSolver.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:EulerSolver.ViewModels"
+        xmlns:conv="clr-namespace:EulerSolver.Converters"
+        Title="Решение ОДУ модифицированным методом Эйлера"
+        Width="1200" Height="780"
+        MinWidth="950" MinHeight="650"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
+
+        <Style x:Key="HeaderLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+
+        <Style x:Key="InputTextBox" TargetType="TextBox">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderBrush" Value="#CCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+
+        <!-- Поле ввода формулы — увеличенное -->
+        <Style x:Key="FormulaTextBox" TargetType="TextBox" BasedOn="{StaticResource InputTextBox}">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="34"/>
+        </Style>
+
+        <Style x:Key="ErrorText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="#D32F2F"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+
+        <Style x:Key="HintText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="#888"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="20,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1976D2"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1565C0"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#BDBDBD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#757575"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#616161"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#424242"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#BDBDBD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GroupPanel" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ЗАГОЛОВОК -->
+        <Border Grid.Row="0" Background="#1976D2" Padding="16,12">
+            <StackPanel>
+                <TextBlock Text="Решение обыкновенных дифференциальных уравнений"
+                           FontSize="20" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="Модифицированный метод Эйлера (метод Эйлера-Коши)"
+                           FontSize="13" Foreground="#BBDEFB" Margin="0,2,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ОСНОВНОЕ СОДЕРЖИМОЕ -->
+        <Grid Grid.Row="1" Margin="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ЛЕВАЯ ПАНЕЛЬ -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,10,0">
+                <StackPanel>
+
+                    <!-- Ввод уравнения -->
+                    <Border Style="{StaticResource GroupPanel}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource HeaderLabel}" Text="📐 Уравнение  y' = f(x, y)"/>
+
+                            <TextBlock Text="Готовые примеры:" FontSize="12" Margin="0,0,0,2"/>
+                            <ComboBox ItemsSource="{Binding Examples}"
+                  SelectedItem="{Binding SelectedExample}"
+                  DisplayMemberPath="DisplayName"
+                  Height="28" FontSize="12" Margin="0,0,0,8"/>
+
+                            <TextBlock FontSize="12" Margin="0,0,0,2">
+            <Run Text="f(x, y) = " FontWeight="SemiBold"/>
+                            </TextBlock>
+                            <TextBox Text="{Binding EquationText, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FormulaTextBox}"/>
+                            <TextBlock Text="{Binding EquationError}" Style="{StaticResource ErrorText}"/>
+
+                            <!-- Точное решение — заполняется автоматически или вручную -->
+                            <TextBlock FontSize="12" Margin="0,4,0,2">
+            <Run Text="Точное решение y(x) = " FontWeight="SemiBold"/>
+            <Run Text="{Binding ExactSolutionHint, Mode=OneWay}" 
+                 Foreground="#4CAF50" FontSize="10"/>
+                            </TextBlock>
+                            <TextBox Text="{Binding ExactSolutionText, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource FormulaTextBox}"
+                 IsReadOnly="False"/>
+                            <TextBlock Text="{Binding ExactSolutionError}" Style="{StaticResource ErrorText}"/>
+
+                            <Expander Header="Справка по синтаксису" FontSize="11"
+                  IsExpanded="False" Margin="0,4,0,0">
+                                <TextBlock TextWrapping="Wrap" FontSize="11" Foreground="#888"
+                       Margin="0,4,0,0" LineHeight="16">
+                <Run FontWeight="SemiBold">Операции:</Run> + - * / ^ (степень)
+                <LineBreak/>
+                <Run FontWeight="SemiBold">Переменные:</Run> x, y
+                <LineBreak/>
+                <Run FontWeight="SemiBold">Константы:</Run> pi, e
+                <LineBreak/>
+                <Run FontWeight="SemiBold">Функции:</Run>
+                <LineBreak/>sin, cos, tan(tg), exp, ln, lg,
+                <LineBreak/>sqrt, abs, asin, acos, atan
+                <LineBreak/>
+                <Run FontWeight="SemiBold">Примеры:</Run>
+                <LineBreak/>x + y
+                <LineBreak/>sin(x) * y + x^2
+                <LineBreak/>exp(-x) * cos(2*x)
+                                </TextBlock>
+                            </Expander>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Начальные условия -->
+                    <Border Style="{StaticResource GroupPanel}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource HeaderLabel}" Text="📋 Начальные условия"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="X₀:" FontSize="12" Margin="0,0,0,2"/>
+                                    <TextBox Text="{Binding X0, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{StaticResource InputTextBox}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Y₀ = Y(X₀):" FontSize="12" Margin="0,0,0,2"/>
+                                    <TextBox Text="{Binding Y0, UpdateSourceTrigger=PropertyChanged}"
+                                             Style="{StaticResource InputTextBox}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Параметры -->
+                    <Border Style="{StaticResource GroupPanel}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource HeaderLabel}" Text="⚙️ Параметры интегрирования"/>
+                            <TextBlock Text="Xₙ (правая граница):" FontSize="12" Margin="0,0,0,2"/>
+                            <TextBox Text="{Binding Xn, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource InputTextBox}"/>
+                            <TextBlock Text="h (шаг):" FontSize="12" Margin="0,0,0,2"/>
+                            <TextBox Text="{Binding StepH, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource InputTextBox}"/>
+                            <CheckBox Content="Контроль точности (правило Рунге)"
+                                      IsChecked="{Binding UseRungeControl}"
+                                      FontSize="12" Margin="0,4,0,4"/>
+                            <StackPanel Visibility="{Binding UseRungeControl, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="ε (точность):" FontSize="12" Margin="0,0,0,2"/>
+                                <TextBox Text="{Binding Epsilon, UpdateSourceTrigger=PropertyChanged}"
+                                         Style="{StaticResource InputTextBox}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Кнопки -->
+                    <Border Style="{StaticResource GroupPanel}">
+                        <StackPanel>
+                            <Button Content="▶ Решить" Command="{Binding SolveCommand}"
+                                    Style="{StaticResource PrimaryButton}" Margin="0,0,0,8"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Content="🗑 Очистить"
+                                        Command="{Binding ClearCommand}"
+                                        Style="{StaticResource SecondaryButton}"/>
+                                <Button Grid.Column="2" Content="💾 Экспорт"
+                                        Command="{Binding ExportCommand}"
+                                        Style="{StaticResource SecondaryButton}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- О методе -->
+                    <Border Style="{StaticResource GroupPanel}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource HeaderLabel}" Text="ℹ️ О методе"/>
+                            <TextBlock TextWrapping="Wrap" FontSize="11.5" Foreground="#555" LineHeight="18">
+                                <Run FontWeight="SemiBold">Предиктор:</Run>
+                                <LineBreak/>
+                                <Run>ŷₙ₊₁ = yₙ + h·f(xₙ, yₙ)</Run>
+                                <LineBreak/><LineBreak/>
+                                <Run FontWeight="SemiBold">Корректор:</Run>
+                                <LineBreak/>
+                                <Run>yₙ₊₁ = yₙ + (h/2)·[f(xₙ,yₙ) + f(xₙ₊₁,ŷₙ₊₁)]</Run>
+                                <LineBreak/><LineBreak/>
+                                <Run>Порядок точности: O(h²)</Run>
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- ПРАВАЯ ПАНЕЛЬ -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Сводка -->
+                <Border Grid.Row="0" Style="{StaticResource GroupPanel}"
+                        Visibility="{Binding HasResults, Converter={StaticResource BoolToVis}}">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource HeaderLabel}" Text="📊 Результаты вычислений"/>
+                        <TextBlock Text="{Binding ResultSummary}"
+                                   FontSize="12" FontFamily="Consolas"
+                                   Foreground="#333" LineHeight="18"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Таблица -->
+                <Border Grid.Row="1" Style="{StaticResource GroupPanel}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Style="{StaticResource HeaderLabel}" Text="📋 Таблица значений"/>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Введите уравнение и нажмите «Решить»"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   FontSize="14" Foreground="#999">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding HasResults}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <DataGrid Grid.Row="1"
+                                  ItemsSource="{Binding ResultPoints}"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  CanUserAddRows="False" CanUserDeleteRows="False"
+                                  CanUserReorderColumns="False"
+                                  HeadersVisibility="Column"
+                                  AlternatingRowBackground="#F8F9FA"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="#E8E8E8"
+                                  BorderThickness="1" BorderBrush="#DDD"
+                                  FontSize="12" FontFamily="Consolas"
+                                  SelectionMode="Single" AlternationCount="2"
+                                  Visibility="{Binding HasResults, Converter={StaticResource BoolToVis}}">
+
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#E3F2FD"/>
+                                    <Setter Property="Foreground" Value="#1565C0"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="FontSize" Value="12"/>
+                                    <Setter Property="Padding" Value="8,6"/>
+                                    <Setter Property="BorderBrush" Value="#BBDEFB"/>
+                                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="X"
+                                    Binding="{Binding XFormatted}" Width="110"/>
+                                <DataGridTextColumn Header="Y (числ.)"
+                                    Binding="{Binding YFormatted}" Width="130"/>
+                                <DataGridTextColumn Header="Y (точн.)"
+                                    Binding="{Binding ExactYFormatted}" Width="130"/>
+                                <DataGridTextColumn Header="Абс. погр."
+                                    Binding="{Binding AbsoluteErrorFormatted}" Width="130"/>
+                                <DataGridTextColumn Header="Отн. погр. (%)"
+                                    Binding="{Binding RelativeErrorFormatted}" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+
+                <!-- Заглушка графика -->
+                <Border Grid.Row="2" Style="{StaticResource GroupPanel}" Height="50"
+                        Visibility="{Binding HasResults, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Text="📈 График будет добавлен на следующем этапе"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="13" Foreground="#999" FontStyle="Italic"/>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- СТАТУСНАЯ СТРОКА -->
+        <Border Grid.Row="2" Background="#E8E8E8" Padding="12,6">
+            <TextBlock Text="{Binding StatusText}" FontSize="12" Foreground="#555"/>
+        </Border>
+    </Grid>
+</Window>

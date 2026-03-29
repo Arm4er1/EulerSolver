@@ -1,0 +1,18 @@
+## Результаты сборки
+bin/
+obj/
+
+## Папки Visual Studio
+.vs/
+
+## Пользовательские файлы
+*.user
+*.suo
+*.csproj.user
+
+## Папки NuGet
+packages/
+
+## Прочее
+*.log
+Thumbs.db
