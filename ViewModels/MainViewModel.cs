@@ -10,11 +10,11 @@ namespace EulerSolver.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private readonly ModifiedEulerSolver _solver = new();
-        private readonly ExpressionParser _parser = new();
+        private readonly ModifiedEulerSolver _solver = new ModifiedEulerSolver();
+        private readonly ExpressionParser _parser = new ExpressionParser();
         private bool _isSettingFromExample;
 
-        private readonly Dictionary<string, KnownSolution> _knownSolutions = new()
+        private readonly Dictionary<string, KnownSolution> _knownSolutions = new Dictionary<string, KnownSolution>
         {
             ["y"] = new KnownSolution("exp(x)", 1),
             ["-y"] = new KnownSolution("exp(-x)", 1),
@@ -38,13 +38,12 @@ namespace EulerSolver.ViewModels
         private string _equationText = "x + y";
         public string EquationText
         {
-            get => _equationText;
+            get { return _equationText; }
             set
             {
                 if (SetProperty(ref _equationText, value))
                 {
                     ValidateEquation();
-
                     if (!_isSettingFromExample)
                     {
                         SelectedExample = null;
@@ -57,7 +56,7 @@ namespace EulerSolver.ViewModels
         private string _exactSolutionText = "";
         public string ExactSolutionText
         {
-            get => _exactSolutionText;
+            get { return _exactSolutionText; }
             set
             {
                 if (SetProperty(ref _exactSolutionText, value))
@@ -68,29 +67,29 @@ namespace EulerSolver.ViewModels
         private string _equationError = "";
         public string EquationError
         {
-            get => _equationError;
-            set => SetProperty(ref _equationError, value);
+            get { return _equationError; }
+            set { SetProperty(ref _equationError, value); }
         }
 
         private string _exactSolutionError = "";
         public string ExactSolutionError
         {
-            get => _exactSolutionError;
-            set => SetProperty(ref _exactSolutionError, value);
+            get { return _exactSolutionError; }
+            set { SetProperty(ref _exactSolutionError, value); }
         }
 
         private bool _isEquationValid = true;
         public bool IsEquationValid
         {
-            get => _isEquationValid;
-            set => SetProperty(ref _isEquationValid, value);
+            get { return _isEquationValid; }
+            set { SetProperty(ref _isEquationValid, value); }
         }
 
         private string _exactSolutionHint = "";
         public string ExactSolutionHint
         {
-            get => _exactSolutionHint;
-            set => SetProperty(ref _exactSolutionHint, value);
+            get { return _exactSolutionHint; }
+            set { SetProperty(ref _exactSolutionHint, value); }
         }
 
         #endregion
@@ -112,13 +111,12 @@ namespace EulerSolver.ViewModels
         private EquationExample _selectedExample;
         public EquationExample SelectedExample
         {
-            get => _selectedExample;
+            get { return _selectedExample; }
             set
             {
                 if (SetProperty(ref _selectedExample, value) && value != null)
                 {
                     _isSettingFromExample = true;
-
                     EquationText = value.FunctionText;
                     ExactSolutionText = value.ExactText;
                     X0 = value.X0;
@@ -141,22 +139,22 @@ namespace EulerSolver.ViewModels
         #region Параметры
 
         private double _x0 = 0;
-        public double X0 { get => _x0; set => SetProperty(ref _x0, value); }
+        public double X0 { get { return _x0; } set { SetProperty(ref _x0, value); } }
 
         private double _y0 = 1;
-        public double Y0 { get => _y0; set => SetProperty(ref _y0, value); }
+        public double Y0 { get { return _y0; } set { SetProperty(ref _y0, value); } }
 
         private double _xn = 2;
-        public double Xn { get => _xn; set => SetProperty(ref _xn, value); }
+        public double Xn { get { return _xn; } set { SetProperty(ref _xn, value); } }
 
         private double _stepH = 0.1;
-        public double StepH { get => _stepH; set => SetProperty(ref _stepH, value); }
+        public double StepH { get { return _stepH; } set { SetProperty(ref _stepH, value); } }
 
         private bool _useRungeControl;
-        public bool UseRungeControl { get => _useRungeControl; set => SetProperty(ref _useRungeControl, value); }
+        public bool UseRungeControl { get { return _useRungeControl; } set { SetProperty(ref _useRungeControl, value); } }
 
         private double _epsilon = 1e-6;
-        public double Epsilon { get => _epsilon; set => SetProperty(ref _epsilon, value); }
+        public double Epsilon { get { return _epsilon; } set { SetProperty(ref _epsilon, value); } }
 
         #endregion
 
@@ -165,21 +163,21 @@ namespace EulerSolver.ViewModels
         private ObservableCollection<SolutionPoint> _resultPoints = new ObservableCollection<SolutionPoint>();
         public ObservableCollection<SolutionPoint> ResultPoints
         {
-            get => _resultPoints;
-            set => SetProperty(ref _resultPoints, value);
+            get { return _resultPoints; }
+            set { SetProperty(ref _resultPoints, value); }
         }
 
         private string _statusText = "Готов к вычислению";
-        public string StatusText { get => _statusText; set => SetProperty(ref _statusText, value); }
+        public string StatusText { get { return _statusText; } set { SetProperty(ref _statusText, value); } }
 
         private string _resultSummary = "";
-        public string ResultSummary { get => _resultSummary; set => SetProperty(ref _resultSummary, value); }
+        public string ResultSummary { get { return _resultSummary; } set { SetProperty(ref _resultSummary, value); } }
 
         private bool _hasResults;
-        public bool HasResults { get => _hasResults; set => SetProperty(ref _hasResults, value); }
+        public bool HasResults { get { return _hasResults; } set { SetProperty(ref _hasResults, value); } }
 
         private SolverResult _lastResult;
-        public SolverResult LastResult { get => _lastResult; set => SetProperty(ref _lastResult, value); }
+        public SolverResult LastResult { get { return _lastResult; } set { SetProperty(ref _lastResult, value); } }
 
         #endregion
 
@@ -188,6 +186,7 @@ namespace EulerSolver.ViewModels
         public ICommand SolveCommand { get; }
         public ICommand ClearCommand { get; }
         public ICommand ExportCommand { get; }
+        public ICommand ShowGraphCommand { get; }
 
         #endregion
 
@@ -196,6 +195,7 @@ namespace EulerSolver.ViewModels
             SolveCommand = new RelayCommand(ExecuteSolve, CanSolve);
             ClearCommand = new RelayCommand(ExecuteClear);
             ExportCommand = new RelayCommand(ExecuteExport, () => HasResults);
+            ShowGraphCommand = new RelayCommand(ExecuteShowGraph, () => HasResults);
             ValidateEquation();
             TryAutoFillExactSolution();
         }
@@ -218,7 +218,8 @@ namespace EulerSolver.ViewModels
 
             string normalized = Normalize(EquationText);
 
-            if (_knownSolutions.TryGetValue(normalized, out KnownSolution known))
+            KnownSolution known;
+            if (_knownSolutions.TryGetValue(normalized, out known))
             {
                 ExactSolutionText = known.Formula;
                 ExactSolutionHint = "найдено автоматически ✔";
@@ -243,7 +244,8 @@ namespace EulerSolver.ViewModels
                 return;
             }
 
-            if (_parser.TryParse(EquationText, out string error))
+            string error;
+            if (_parser.TryParse(EquationText, out error))
             {
                 EquationError = "";
                 IsEquationValid = true;
@@ -263,7 +265,8 @@ namespace EulerSolver.ViewModels
                 return;
             }
 
-            if (_parser.TryParse(ExactSolutionText, out string error))
+            string error;
+            if (_parser.TryParse(ExactSolutionText, out error))
                 ExactSolutionError = "";
             else
                 ExactSolutionError = error;
@@ -338,6 +341,16 @@ namespace EulerSolver.ViewModels
             }
         }
 
+        private void ExecuteShowGraph()
+        {
+            if (LastResult == null) return;
+
+            var window = new Views.GraphWindow();
+            window.Owner = Application.Current.MainWindow;
+            window.ShowSolution(LastResult);
+            window.Show();
+        }
+
         private void ExecuteClear()
         {
             ResultPoints.Clear();
@@ -386,8 +399,8 @@ namespace EulerSolver.ViewModels
 
     public class KnownSolution
     {
-        public string Formula { get; }
-        public double DefaultY0 { get; }
+        public string Formula { get; private set; }
+        public double DefaultY0 { get; private set; }
 
         public KnownSolution(string formula, double defaultY0)
         {
@@ -398,13 +411,13 @@ namespace EulerSolver.ViewModels
 
     public class EquationExample
     {
-        public string DisplayName { get; }
-        public string FunctionText { get; }
-        public string ExactText { get; }
-        public double X0 { get; }
-        public double Y0 { get; }
-        public double Xn { get; }
-        public double Step { get; }
+        public string DisplayName { get; private set; }
+        public string FunctionText { get; private set; }
+        public string ExactText { get; private set; }
+        public double X0 { get; private set; }
+        public double Y0 { get; private set; }
+        public double Xn { get; private set; }
+        public double Step { get; private set; }
 
         public EquationExample(string displayName, string functionText, string exactText,
             double x0, double y0, double xn, double step)
