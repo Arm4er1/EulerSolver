@@ -222,12 +222,12 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
                                     <TextBlock Text="X₀:" FontSize="12" Margin="0,0,0,2"/>
-                                    <TextBox Text="{Binding X0, UpdateSourceTrigger=PropertyChanged}"
+                                    <TextBox Text="{Binding X0, StringFormat=G, UpdateSourceTrigger=LostFocus}"
                                              Style="{StaticResource InputTextBox}"/>
                                 </StackPanel>
                                 <StackPanel Grid.Column="2">
                                     <TextBlock Text="Y₀ = Y(X₀):" FontSize="12" Margin="0,0,0,2"/>
-                                    <TextBox Text="{Binding Y0, UpdateSourceTrigger=PropertyChanged}"
+                                    <TextBox Text="{Binding Y0, StringFormat=G, UpdateSourceTrigger=LostFocus}"
                                              Style="{StaticResource InputTextBox}"/>
                                 </StackPanel>
                             </Grid>
@@ -239,18 +239,18 @@
                         <StackPanel>
                             <TextBlock Style="{StaticResource HeaderLabel}" Text="⚙️ Параметры интегрирования"/>
                             <TextBlock Text="Xₙ (правая граница):" FontSize="12" Margin="0,0,0,2"/>
-                            <TextBox Text="{Binding Xn, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBox Text="{Binding Xn, StringFormat=G, UpdateSourceTrigger=LostFocus}"
                                      Style="{StaticResource InputTextBox}"/>
                             <TextBlock Text="h (шаг):" FontSize="12" Margin="0,0,0,2"/>
-                            <TextBox Text="{Binding StepH, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBox Text="{Binding StepH, StringFormat=G, UpdateSourceTrigger=LostFocus}"
                                      Style="{StaticResource InputTextBox}"/>
                             <CheckBox Content="Контроль точности (правило Рунге)"
                                       IsChecked="{Binding UseRungeControl}"
                                       FontSize="12" Margin="0,4,0,4"/>
                             <StackPanel Visibility="{Binding UseRungeControl, Converter={StaticResource BoolToVis}}">
                                 <TextBlock Text="ε (точность):" FontSize="12" Margin="0,0,0,2"/>
-                                <TextBox Text="{Binding Epsilon, UpdateSourceTrigger=PropertyChanged}"
-                                         Style="{StaticResource InputTextBox}"/>
+                                <TextBox Text="{Binding Epsilon, StringFormat=G, UpdateSourceTrigger=LostFocus}"
+                                       Style="{StaticResource InputTextBox}"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>
