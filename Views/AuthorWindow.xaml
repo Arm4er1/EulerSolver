@@ -2,60 +2,187 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Об авторе"
-        Width="450" Height="300"
+        Width="420" Height="520"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         Background="#F5F5F5">
 
-    <Grid Margin="24">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="16"/>
+            <RowDefinition Height="200"/>
+            <!-- Верхняя синяя секция с фото -->
             <RowDefinition Height="*"/>
-            <RowDefinition Height="16"/>
+            <!-- Информация -->
             <RowDefinition Height="Auto"/>
+            <!-- Кнопка -->
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
-        <Border Grid.Row="0" Background="#1976D2" CornerRadius="8" Padding="20,16">
-            <TextBlock Text="Об авторе"
-                       FontSize="20" FontWeight="Bold"
-                       Foreground="White"/>
-        </Border>
+        <!-- ====== ВЕРХНЯЯ СЕКЦИЯ — фон + фото ====== -->
+        <Grid Grid.Row="0">
 
-        <!-- Содержимое — заглушка -->
-        <Border Grid.Row="2" Background="White" CornerRadius="6"
-                BorderBrush="#E0E0E0" BorderThickness="1" Padding="16">
-            <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="👤 Информация об авторе"
-                           FontSize="14" FontWeight="SemiBold"
-                           Foreground="#1976D2" Margin="0,0,0,12"/>
+            <!-- Градиентный фон -->
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#1565C0" Offset="0"/>
+                        <GradientStop Color="#42A5F5" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
 
-                <!-- ЗАГЛУШКА -->
-                <TextBlock Text="Будет добавлено позже."
-                           FontSize="12" Foreground="#888"
-                           FontStyle="Italic"/>
+            <!-- Декоративные круги на фоне -->
+            <Canvas>
+                <Ellipse Canvas.Right="-30" Canvas.Top="-30"
+                         Width="150" Height="150"
+                         Opacity="0.1" Fill="White"/>
+                <Ellipse Canvas.Left="-20" Canvas.Bottom="-40"
+                         Width="120" Height="120"
+                         Opacity="0.1" Fill="White"/>
+                <Ellipse Canvas.Right="40" Canvas.Bottom="-20"
+                         Width="80" Height="80"
+                         Opacity="0.08" Fill="White"/>
+            </Canvas>
+
+            <!-- Фото в круге -->
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                <!-- Внешнее кольцо (белое) -->
+                <Grid Width="120" Height="120" Margin="0,16,0,0">
+
+                    <!-- Белое кольцо -->
+                    <Ellipse Width="120" Height="120" Fill="White" Opacity="0.3"/>
+
+                    <!-- Основной круг с фото -->
+                    <Ellipse Width="108" Height="108"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center">
+                        <Ellipse.Fill>
+                            <ImageBrush x:Name="authorPhoto"
+                                        ImageSource="/Assets/author.jpg"
+                                        Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                        <Ellipse.Effect>
+                            <DropShadowEffect BlurRadius="12" Opacity="0.4"
+                                              ShadowDepth="4" Color="#000000"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+
+                    <!-- Если фото нет — заглушка с иконкой -->
+                    <Ellipse x:Name="photoPlaceholder"
+                             Width="108" Height="108"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#1E88E5" Offset="0"/>
+                                <GradientStop Color="#0D47A1" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <TextBlock Text="ДН"
+                               x:Name="photoInitials"
+                               FontSize="36" FontWeight="Bold"
+                               Foreground="White" Opacity="0.9"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <!-- ====== ИНФОРМАЦИЯ ====== -->
+        <Border Grid.Row="1" Background="White"
+                Margin="16,0,16,0"
+                CornerRadius="12"
+                Padding="24,20">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" Opacity="0.1"
+                                  ShadowDepth="2"/>
+            </Border.Effect>
+            <StackPanel HorizontalAlignment="Center">
+
+                <!-- Имя -->
+                <TextBlock Text="Никитин Денис Алексеевич"
+                           FontSize="18" FontWeight="Bold"
+                           Foreground="#1A237E"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           Margin="0,0,0,6"/>
+
+                <!-- Разделитель -->
+                <Rectangle Height="2" Width="60"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#42A5F5" Offset="0"/>
+                            <GradientStop Color="#1565C0" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <!-- Группа -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,16">
+                    <TextBlock Text="🎓 " FontSize="14"/>
+                    <TextBlock Text="Студент группы 10701324"
+                               FontSize="14" Foreground="#555"/>
+                </StackPanel>
+
+                <!-- GitHub -->
+                <Border Background="#F3F4F6" CornerRadius="8"
+                        Padding="12,8" Cursor="Hand"
+                        MouseLeftButtonDown="GitHub_Click">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#E8EAF6"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <TextBlock Text="⌨ " FontSize="14"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock x:Name="githubLink"
+                                   Text="github.com/Arm4er1"
+                                   FontSize="13" Foreground="#1565C0"
+                                   TextDecorations="Underline"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Border>
 
-        <!-- Кнопка -->
-        <Button Grid.Row="4"
+        <!-- ====== КНОПКА ====== -->
+        <Button Grid.Row="2"
                 Content="Закрыть"
-                Width="100" HorizontalAlignment="Right"
-                Height="32" FontSize="13"
-                Background="#1976D2" Foreground="White"
-                BorderThickness="0" Cursor="Hand"
+                Width="120"
+                HorizontalAlignment="Center"
+                Height="36" FontSize="13"
+                FontWeight="SemiBold"
+                Margin="0,16,0,16"
+                Background="#1976D2"
+                Foreground="White"
+                BorderThickness="0"
+                Cursor="Hand"
                 Click="CloseButton_Click">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"
-                            CornerRadius="4" Padding="16,0">
+                            CornerRadius="18" Padding="24,0">
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="#1565C0"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#0D47A1"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
