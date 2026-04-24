@@ -24,23 +24,44 @@ namespace EulerSolver.Views
 
             try
             {
-                StatusText("Открываю Excel...");
+                SetStatus("Открываю Excel...");
                 var service = new ExcelExportService();
                 service.Export(vm.LastResult);
-                StatusText("✔ Excel открыт");
+                SetStatus("✔ Excel открыт");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
-                StatusText("✘ Ошибка экспорта в Excel");
+                SetStatus("✘ Ошибка экспорта в Excel");
             }
         }
 
         private void MenuExportWord_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Экспорт в Word будет добавлен в следующем этапе.",
-                "В разработке", MessageBoxButton.OK, MessageBoxImage.Information);
+            var vm = (MainViewModel)DataContext;
+
+            if (!vm.HasResults || vm.LastResult == null)
+            {
+                MessageBox.Show("Сначала решите уравнение.",
+                    "Нет данных", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                return;
+            }
+
+            try
+            {
+                SetStatus("Открываю Word...");
+                var service = new WordExportService();
+                service.Export(vm.LastResult);
+                SetStatus("✔ Word открыт");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                SetStatus("✘ Ошибка экспорта в Word");
+            }
         }
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
@@ -64,7 +85,7 @@ namespace EulerSolver.Views
             window.ShowDialog();
         }
 
-        private void StatusText(string text)
+        private void SetStatus(string text)
         {
             var vm = (MainViewModel)DataContext;
             vm.StatusText = text;
