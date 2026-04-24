@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using EulerSolver.Services;
+using EulerSolver.ViewModels;
+using System.Windows;
 
 namespace EulerSolver.Views
 {
@@ -11,8 +13,28 @@ namespace EulerSolver.Views
 
         private void MenuExportExcel_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Экспорт в Excel будет добавлен в следующем этапе.",
-                "В разработке", MessageBoxButton.OK, MessageBoxImage.Information);
+            var vm = (MainViewModel)DataContext;
+
+            if (!vm.HasResults || vm.LastResult == null)
+            {
+                MessageBox.Show("Сначала решите уравнение.",
+                    "Нет данных", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            try
+            {
+                StatusText("Открываю Excel...");
+                var service = new ExcelExportService();
+                service.Export(vm.LastResult);
+                StatusText("✔ Excel открыт");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                StatusText("✘ Ошибка экспорта в Excel");
+            }
         }
 
         private void MenuExportWord_Click(object sender, RoutedEventArgs e)
@@ -40,6 +62,12 @@ namespace EulerSolver.Views
             var window = new AuthorWindow();
             window.Owner = this;
             window.ShowDialog();
+        }
+
+        private void StatusText(string text)
+        {
+            var vm = (MainViewModel)DataContext;
+            vm.StatusText = text;
         }
     }
 }
