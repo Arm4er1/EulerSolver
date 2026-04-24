@@ -1,0 +1,110 @@
+﻿<Window x:Class="EulerSolver.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="О программе"
+        Width="500" Height="480"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F5F5">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок -->
+        <Border Grid.Row="0" Background="#1976D2" CornerRadius="8" Padding="20,16">
+            <StackPanel>
+                <TextBlock Text="Решение ОДУ"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="White"/>
+                <TextBlock Text="Модифицированный метод Эйлера"
+                           FontSize="13" Foreground="#BBDEFB"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- О программе -->
+        <Border Grid.Row="2" Background="White" CornerRadius="6"
+                BorderBrush="#E0E0E0" BorderThickness="1" Padding="16">
+            <StackPanel>
+                <TextBlock Text="О программе"
+                           FontSize="14" FontWeight="SemiBold"
+                           Foreground="#1976D2" Margin="0,0,0,8"/>
+
+                <TextBlock TextWrapping="Wrap" FontSize="12"
+                           Foreground="#444" LineHeight="20">
+                    Программа предназначена для численного решения обыкновенных
+                    дифференциальных уравнений (ОДУ) вида y' = f(x, y)
+                    модифицированным методом Эйлера (метод Эйлера-Коши).
+                    <LineBreak/><LineBreak/>
+                    Поддерживается сравнение с обычным методом Эйлера,
+                    3D визуализация решения, экспорт в Excel и Word,
+                    а также верификация через MATLAB.
+                </TextBlock>
+
+                <Separator Margin="0,12"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="6"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="6"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="Версия:" FontSize="12"
+                               Foreground="#888" Margin="0,0,16,0"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1"
+                               Text="1.0.0" FontSize="12" Foreground="#333"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0"
+                               Text="Платформа:" FontSize="12"
+                               Foreground="#888" Margin="0,0,16,0"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1"
+                               Text=".NET 8.0 / WPF" FontSize="12" Foreground="#333"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0"
+                               Text="Язык:" FontSize="12"
+                               Foreground="#888" Margin="0,0,16,0"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1"
+                               Text="C#" FontSize="12" Foreground="#333"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Кнопка -->
+        <Button Grid.Row="4"
+                Content="Закрыть"
+                Width="100" HorizontalAlignment="Right"
+                Height="32" FontSize="13"
+                Background="#1976D2" Foreground="White"
+                BorderThickness="0" Cursor="Hand"
+                Click="CloseButton_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            CornerRadius="4" Padding="16,0">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#1565C0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>
