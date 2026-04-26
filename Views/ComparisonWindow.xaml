@@ -45,9 +45,13 @@
     <Grid Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <!-- Заголовок -->
             <RowDefinition Height="Auto"/>
+            <!-- Итоги -->
+            <RowDefinition Height="200"/>
+            <!-- Таблица — фиксированная высота -->
             <RowDefinition Height="*"/>
-            <RowDefinition Height="350"/>
+            <!-- График — всё остальное место -->
         </Grid.RowDefinitions>
 
         <!-- Заголовок -->
@@ -251,7 +255,7 @@
 
                 <TextBlock Grid.Row="0" Style="{StaticResource HeaderLabel}"
                            Text="📈 График сравнения методов"/>
-
+                
                 <!-- Легенда -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,4">
                     <Ellipse Width="12" Height="12" Fill="#E53935"

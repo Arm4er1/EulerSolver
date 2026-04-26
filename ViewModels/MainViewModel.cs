@@ -231,6 +231,7 @@ namespace EulerSolver.ViewModels
         public ICommand ExportCommand { get; }
         public ICommand ShowGraphCommand { get; }
         public ICommand CompareCommand { get; }
+        public ICommand MatlabCommand { get; }
 
         #endregion
 
@@ -241,6 +242,7 @@ namespace EulerSolver.ViewModels
             ExportCommand = new RelayCommand(ExecuteExport, () => HasResults);
             ShowGraphCommand = new RelayCommand(ExecuteShowGraph, () => HasResults);
             CompareCommand = new RelayCommand(ExecuteCompare, () => HasResults);
+            MatlabCommand = new RelayCommand(ExecuteMatlab, () => HasResults);
 
             ValidateEquation();
             TryAutoFillExactSolution();
@@ -412,6 +414,40 @@ namespace EulerSolver.ViewModels
             window.Owner = Application.Current.MainWindow;
             window.ShowSolution(LastResult);
             window.Show();
+        }
+
+        private async void ExecuteMatlab()
+        {
+            if (LastResult == null) return;
+
+            try
+            {
+                StatusText = "⏳ Запускаю MATLAB...";
+
+                var service = new Services.MatlabService();
+                var matlabResult = await service.SolveAsync(
+                    EquationText, X0, Y0, Xn, StepH);
+
+                StatusText = "✔ MATLAB завершил вычисления";
+
+                var window = new Views.MatlabComparisonWindow();
+                window.Owner = Application.Current.MainWindow;
+                window.ShowComparison(LastResult, matlabResult);
+                window.Show();
+            }
+            catch (Exception ex)
+            {
+                StatusText = "✘ Ошибка MATLAB: " + ex.Message;
+                MessageBox.Show(
+                    "Ошибка при работе с MATLAB:\n\n" + ex.Message +
+                    "\n\nПроверьте:\n" +
+                    "1. MATLAB установлен по пути D:\\Dowloads\\MATLAB\\bin\\matlab.exe\n" +
+                    "2. Уравнение корректно\n" +
+                    "3. Параметры задачи верны",
+                    "Ошибка MATLAB",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
         private void ExecuteCompare()
