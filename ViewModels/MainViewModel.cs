@@ -411,7 +411,7 @@ namespace EulerSolver.ViewModels
             if (LastResult == null) return;
 
             var window = new Views.GraphWindow();
-            window.Owner = Application.Current.MainWindow;
+            window.Owner = GetMainWindow();
             window.ShowSolution(LastResult);
             window.Show();
         }
@@ -431,7 +431,7 @@ namespace EulerSolver.ViewModels
                 StatusText = "✔ MATLAB завершил вычисления";
 
                 var window = new Views.MatlabComparisonWindow();
-                window.Owner = Application.Current.MainWindow;
+                window.Owner = GetMainWindow();
                 window.ShowComparison(LastResult, matlabResult);
                 window.Show();
             }
@@ -511,7 +511,7 @@ namespace EulerSolver.ViewModels
                 };
 
                 var window = new Views.ComparisonWindow();
-                window.Owner = Application.Current.MainWindow;
+                window.Owner = GetMainWindow();
                 window.ShowComparison(compResult, eulerResult, modifiedResult, exactResult);
                 window.Show();
 
@@ -571,6 +571,18 @@ namespace EulerSolver.ViewModels
                 MessageBox.Show("Ошибка при экспорте:\n" + ex.Message,
                     "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private Window GetMainWindow()
+        {
+            // Ищем первое видимое окно типа MainWindow
+            foreach (Window w in Application.Current.Windows)
+            {
+                if (w is Views.MainWindow && w.IsVisible)
+                    return w;
+            }
+            // Запасной вариант
+            return Application.Current.MainWindow;
         }
 
         #endregion
