@@ -24,22 +24,6 @@
             <Setter Property="Padding" Value="12"/>
             <Setter Property="Margin" Value="0,0,0,8"/>
         </Style>
-
-        <Style x:Key="EulerHeader" TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="#FFEBEE"/>
-            <Setter Property="Foreground" Value="#C62828"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Padding" Value="8,6"/>
-        </Style>
-
-        <Style x:Key="ModifiedHeader" TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="#E3F2FD"/>
-            <Setter Property="Foreground" Value="#1565C0"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Padding" Value="8,6"/>
-        </Style>
     </Window.Resources>
 
     <Grid Margin="8">
@@ -48,13 +32,15 @@
             <!-- Заголовок -->
             <RowDefinition Height="Auto"/>
             <!-- Итоги -->
+            <RowDefinition Height="Auto"/>
+            <!-- Подсказка (без точного решения) -->
             <RowDefinition Height="200"/>
-            <!-- Таблица — фиксированная высота -->
+            <!-- Таблица -->
             <RowDefinition Height="*"/>
-            <!-- График — всё остальное место -->
+            <!-- График -->
         </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
+        <!-- ======= ЗАГОЛОВОК ======= -->
         <Border Grid.Row="0" Background="#1976D2" CornerRadius="6"
                 Padding="16,10" Margin="0,0,0,8">
             <StackPanel>
@@ -67,7 +53,7 @@
             </StackPanel>
         </Border>
 
-        <!-- Вывод итогов -->
+        <!-- ======= ИТОГИ ======= -->
         <Border Grid.Row="1" Style="{StaticResource GroupPanel}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -80,8 +66,8 @@
                 <Border Grid.Column="0" Background="#FFEBEE" CornerRadius="4"
                         Padding="10" Margin="0,0,6,0">
                     <StackPanel>
-                        <TextBlock Text="Обычный Эйлер" FontSize="13"
-                                   FontWeight="SemiBold"
+                        <TextBlock Text="Обычный Эйлер"
+                                   FontSize="13" FontWeight="SemiBold"
                                    Foreground="#C62828" Margin="0,0,0,4"/>
                         <TextBlock x:Name="eulerErrorText"
                                    Text="Макс. погрешность: —"
@@ -96,8 +82,8 @@
                 <Border Grid.Column="1" Background="#E3F2FD" CornerRadius="4"
                         Padding="10" Margin="3,0,3,0">
                     <StackPanel>
-                        <TextBlock Text="Модифицированный Эйлер" FontSize="13"
-                                   FontWeight="SemiBold"
+                        <TextBlock Text="Модифицированный Эйлер"
+                                   FontSize="13" FontWeight="SemiBold"
                                    Foreground="#1565C0" Margin="0,0,0,4"/>
                         <TextBlock x:Name="modifiedErrorText"
                                    Text="Макс. погрешность: —"
@@ -112,8 +98,8 @@
                 <Border Grid.Column="2" Background="#E8F5E9" CornerRadius="4"
                         Padding="10" Margin="6,0,0,0">
                     <StackPanel>
-                        <TextBlock Text="Вывод" FontSize="13"
-                                   FontWeight="SemiBold"
+                        <TextBlock Text="Вывод"
+                                   FontSize="13" FontWeight="SemiBold"
                                    Foreground="#2E7D32" Margin="0,0,0,4"/>
                         <TextBlock x:Name="conclusionText"
                                    Text="—"
@@ -124,8 +110,32 @@
             </Grid>
         </Border>
 
-        <!-- Таблица сравнения -->
-        <Border Grid.Row="2" Style="{StaticResource GroupPanel}">
+        <!-- ======= ПОДСКАЗКА (видна только когда нет точного решения) ======= -->
+        <Border Grid.Row="2"
+                x:Name="noExactHintBorder"
+                Background="#FFF8E1"
+                BorderBrush="#FFE082"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="12,8"
+                Margin="0,0,0,8"
+                Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="⚠️" FontSize="14" Margin="0,0,8,0"
+                           VerticalAlignment="Center"/>
+                <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="#5D4037"
+                           VerticalAlignment="Center">
+                    <Run FontWeight="SemiBold">Точное решение не задано.</Run>
+                    <Run>Колонки погрешностей скрыты. Столбец</Run>
+                    <Run FontWeight="SemiBold">|Δ| между методами</Run>
+                    <Run>показывает разницу двух численных методов —</Run>
+                    <Run>чем она меньше, тем точнее оба метода (оценка по Рунге).</Run>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+
+        <!-- ======= ТАБЛИЦА ======= -->
+        <Border Grid.Row="3" Style="{StaticResource GroupPanel}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -152,6 +162,7 @@
                           AlternationCount="2">
 
                     <DataGrid.Columns>
+
                         <!-- X -->
                         <DataGridTextColumn Header="X"
                             Binding="{Binding XFormatted}" Width="80">
@@ -177,7 +188,9 @@
                             </DataGridTextColumn.HeaderStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Погр. Эйлер"
+                        <!-- Погрешность Эйлера — скрывается если нет точного -->
+                        <DataGridTextColumn x:Name="colErrorEuler"
+                            Header="Погр. Эйлер"
                             Binding="{Binding ErrorEulerFormatted}" Width="120">
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
@@ -202,7 +215,9 @@
                             </DataGridTextColumn.HeaderStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Погр. Модиф."
+                        <!-- Погрешность модифицированного — скрывается если нет точного -->
+                        <DataGridTextColumn x:Name="colErrorModified"
+                            Header="Погр. Модиф."
                             Binding="{Binding ErrorModifiedFormatted}" Width="120">
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
@@ -214,8 +229,9 @@
                             </DataGridTextColumn.HeaderStyle>
                         </DataGridTextColumn>
 
-                        <!-- Точное решение -->
-                        <DataGridTextColumn Header="Y (точное)"
+                        <!-- Точное решение — скрывается если нет точного -->
+                        <DataGridTextColumn x:Name="colExact"
+                            Header="Y (точное)"
                             Binding="{Binding YExactFormatted}" Width="120">
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
@@ -227,8 +243,9 @@
                             </DataGridTextColumn.HeaderStyle>
                         </DataGridTextColumn>
 
-                        <!-- Разница между методами -->
-                        <DataGridTextColumn Header="|Δ| между методами"
+                        <!-- Разница между методами — всегда видна -->
+                        <DataGridTextColumn x:Name="colDifference"
+                            Header="|Δ| между методами"
                             Binding="{Binding DifferenceFormatted}" Width="*">
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
@@ -239,13 +256,14 @@
                                 </Style>
                             </DataGridTextColumn.HeaderStyle>
                         </DataGridTextColumn>
+
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </Border>
 
-        <!-- График сравнения -->
-        <Border Grid.Row="3" Style="{StaticResource GroupPanel}">
+        <!-- ======= ГРАФИК ======= -->
+        <Border Grid.Row="4" Style="{StaticResource GroupPanel}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -255,7 +273,7 @@
 
                 <TextBlock Grid.Row="0" Style="{StaticResource HeaderLabel}"
                            Text="📈 График сравнения методов"/>
-                
+
                 <!-- Легенда -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,4">
                     <Ellipse Width="12" Height="12" Fill="#E53935"
@@ -270,11 +288,15 @@
                                Foreground="#555" Margin="0,0,16,0"
                                VerticalAlignment="Center"/>
 
-                    <Ellipse Width="12" Height="12" Fill="#43A047"
-                             VerticalAlignment="Center" Margin="0,0,4,0"/>
-                    <TextBlock x:Name="exactLegendText"
-                               Text="Точное решение" FontSize="12"
-                               Foreground="#555" VerticalAlignment="Center"/>
+                    <!-- Точное решение в легенде — скрывается если нет -->
+                    <StackPanel x:Name="exactLegendPanel"
+                                Orientation="Horizontal"
+                                Visibility="Collapsed">
+                        <Ellipse Width="12" Height="12" Fill="#43A047"
+                                 VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBlock Text="Точное решение" FontSize="12"
+                                   Foreground="#555" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </StackPanel>
 
                 <controls:Graph3DControl Grid.Row="2" x:Name="comparisonGraph"/>

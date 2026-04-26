@@ -50,15 +50,15 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- шапка -->
+                <!-- Row 0: шапка -->
                 <RowDefinition Height="*"/>
-                <!-- центр -->
+                <!-- Row 1: центр -->
                 <RowDefinition Height="Auto"/>
-                <!-- Минск — 2026 -->
+                <!-- Row 2: Минск — 2026 -->
                 <RowDefinition Height="Auto"/>
-                <!-- таймер -->
+                <!-- Row 3: таймер -->
                 <RowDefinition Height="Auto"/>
-                <!-- нижняя полоса -->
+                <!-- Row 4: нижняя полоса -->
             </Grid.RowDefinitions>
 
             <!-- ======= ШАПКА ======= -->
@@ -104,21 +104,19 @@
                             HorizontalAlignment="Center"
                             Margin="28,16,10,16">
 
-                    <!-- Тематическое изображение (математика/ОДУ) -->
                     <Border Width="260" Height="160"
                             CornerRadius="8"
                             Background="#E3F2FD"
                             BorderBrush="#90CAF9"
                             BorderThickness="1.5">
                         <Grid>
-                            <!-- Рисуем «график» средствами WPF -->
                             <Canvas Width="260" Height="160"
                                     ClipToBounds="True">
 
                                 <!-- Оси -->
                                 <Line X1="20" Y1="140" X2="250" Y2="140"
                                       Stroke="#90CAF9" StrokeThickness="1.5"/>
-                                <Line X1="20" Y1="10"  X2="20"  Y2="145"
+                                <Line X1="20" Y1="10" X2="20" Y2="145"
                                       Stroke="#90CAF9" StrokeThickness="1.5"/>
 
                                 <!-- Стрелки осей -->
@@ -135,7 +133,7 @@
                                            Text="y" FontSize="11"
                                            Foreground="#1976D2"/>
 
-                                <!-- Кривая e^x (приближение ломаной) -->
+                                <!-- Кривая -->
                                 <Polyline StrokeThickness="2.5"
                                           Stroke="#1E88E5"
                                           StrokeLineJoin="Round"
@@ -144,9 +142,9 @@
                                                   170,40 195,22 210,14"/>
 
                                 <!-- Точки метода Эйлера -->
-                                <Ellipse Canvas.Left="43"  Canvas.Top="125"
+                                <Ellipse Canvas.Left="43" Canvas.Top="125"
                                          Width="5" Height="5" Fill="#E53935"/>
-                                <Ellipse Canvas.Left="93"  Canvas.Top="100"
+                                <Ellipse Canvas.Left="93" Canvas.Top="100"
                                          Width="5" Height="5" Fill="#E53935"/>
                                 <Ellipse Canvas.Left="143" Canvas.Top="60"
                                          Width="5" Height="5" Fill="#E53935"/>
@@ -159,7 +157,6 @@
                                 <TextBlock Canvas.Left="55" Canvas.Top="11"
                                            Text="y(x)" FontSize="10"
                                            Foreground="#1E88E5"/>
-
                                 <Ellipse Canvas.Left="30" Canvas.Top="28"
                                          Width="7" Height="7" Fill="#E53935"/>
                                 <TextBlock Canvas.Left="42" Canvas.Top="25"
@@ -179,7 +176,6 @@
                         VerticalAlignment="Stretch">
                     <StackPanel VerticalAlignment="Center">
 
-                        <!-- Выполнил -->
                         <TextBlock Text="Выполнил:"
                                    FontSize="12" FontWeight="SemiBold"
                                    Foreground="#1565C0"/>
@@ -191,10 +187,8 @@
                                    FontWeight="SemiBold"
                                    Margin="0,2,0,0"/>
 
-                        <Separator Margin="0,14,0,14"
-                                   Background="#BBDEFB"/>
+                        <Separator Margin="0,14,0,14" Background="#BBDEFB"/>
 
-                        <!-- Преподаватель -->
                         <TextBlock Text="Преподаватель:"
                                    FontSize="12" FontWeight="SemiBold"
                                    Foreground="#1565C0"/>
@@ -211,18 +205,19 @@
                 </Border>
             </Grid>
 
-            <!-- ======= МИНСК — 2026 (по центру) ======= -->
+            <!-- ======= МИНСК — 2026 (Row 2, по центру) ======= -->
             <TextBlock Grid.Row="2"
-           Text="Минск — 2026"
-           FontSize="13" Foreground="#777"
-           FontStyle="Italic"
-           TextAlignment="Center"
-           VerticalAlignment="Center"
-           Margin="0,6,0,0"/>
+                       Text="Минск — 2026"
+                       FontSize="13"
+                       Foreground="#777"
+                       FontStyle="Italic"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Margin="0,8,0,8"/>
 
-            <!-- ======= ТАЙМЕР ======= -->
-            <Border Grid.Row="2" Background="#FAFAFA"
-                    Padding="0,6,0,6">
+            <!-- ======= ТАЙМЕР (Row 3) ======= -->
+            <Border Grid.Row="3" Background="#FAFAFA"
+                    Padding="0,4,0,6">
                 <StackPanel HorizontalAlignment="Center">
                     <TextBlock x:Name="timerText"
                                Text="Автозакрытие через 60 сек."
@@ -239,8 +234,8 @@
                 </StackPanel>
             </Border>
 
-            <!-- ======= НИЖНЯЯ ПОЛОСА ======= -->
-            <Border Grid.Row="3" Background="#1976D2"
+            <!-- ======= НИЖНЯЯ ПОЛОСА (Row 4) ======= -->
+            <Border Grid.Row="4" Background="#1976D2"
                     CornerRadius="0,0,10,10" Padding="24,12">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -248,13 +243,11 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Версия слева -->
                     <TextBlock Grid.Column="0"
                                Text="v1.0  ·  Модифицированный метод Эйлера"
                                FontSize="11" Foreground="#90CAF9"
                                VerticalAlignment="Center"/>
 
-                    <!-- Кнопки справа -->
                     <StackPanel Grid.Column="1"
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Right">
