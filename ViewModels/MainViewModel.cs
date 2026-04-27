@@ -13,7 +13,7 @@ namespace EulerSolver.ViewModels
     {
         // Солверы и парсер
         private readonly EulerSolver.Core.Services.ModifiedEulerSolver _solver =
-    new EulerSolver.Core.Services.ModifiedEulerSolver();
+            new EulerSolver.Core.Services.ModifiedEulerSolver();
         private readonly EulerSolver.Core.Services.EulerSolver _eulerSolver =
             new EulerSolver.Core.Services.EulerSolver();
         private readonly EulerSolver.Core.Services.ExpressionParser _parser =

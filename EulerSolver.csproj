@@ -10,6 +10,14 @@
 	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
+   <ItemGroup>
+	 <Compile Remove="EulerSolver.Core\**\*" />
+	 <Page Remove="EulerSolver.Core\**\*" />
+	 <EmbeddedResource Remove="EulerSolver.Core\**\*" />
+	 <None Remove="EulerSolver.Core\**\*" />
+	 <Content Remove="EulerSolver.Core\**\*" />
+   </ItemGroup>
+
   <ItemGroup>
     <None Remove="Assets\author.jpg" />
   </ItemGroup>
