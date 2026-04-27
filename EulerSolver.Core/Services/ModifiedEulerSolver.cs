@@ -1,13 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using EulerSolver.Models;
+using EulerSolver.Core.Models;
 
-namespace EulerSolver.Services
+namespace EulerSolver.Core.Services
 {
+    /// <summary>
+    /// Модифицированный метод Эйлера (метод Эйлера-Коши).
+    /// Порядок точности O(h²).
+    ///
+    /// Предиктор:  ŷₙ₊₁ = yₙ + h·f(xₙ, yₙ)
+    /// Корректор:  yₙ₊₁ = yₙ + (h/2)·[f(xₙ,yₙ) + f(xₙ₊₁,ŷₙ₊₁)]
+    /// </summary>
     public class ModifiedEulerSolver
     {
-        public SolverResult Solve(DifferentialEquation equation, double x0, double y0, double xn, double h)
+        /// <summary>
+        /// Решает задачу Коши с фиксированным шагом h.
+        /// </summary>
+        public SolverResult Solve(
+            DifferentialEquation equation,
+            double x0, double y0, double xn, double h)
         {
             if (h <= 0)
                 throw new ArgumentException("Шаг должен быть положительным", nameof(h));
@@ -15,6 +27,7 @@ namespace EulerSolver.Services
                 throw new ArgumentException("Xn должен быть больше X0");
 
             var stopwatch = Stopwatch.StartNew();
+
             var result = new SolverResult
             {
                 EquationDescription = equation.Formula,
@@ -42,11 +55,11 @@ namespace EulerSolver.Services
 
                 double xNext = x + currentH;
 
-                // Предиктор
+                // Предиктор — обычный шаг Эйлера
                 double fCurrent = f(x, y);
                 double yPredictor = y + currentH * fCurrent;
 
-                // Корректор
+                // Корректор — уточняем через среднее наклонов
                 double fPredictor = f(xNext, yPredictor);
                 double yNext = y + (currentH / 2.0) * (fCurrent + fPredictor);
 
@@ -64,8 +77,14 @@ namespace EulerSolver.Services
             return result;
         }
 
-        public SolverResult SolveWithRungeControl(DifferentialEquation equation,
-            double x0, double y0, double xn, double h, double epsilon)
+        /// <summary>
+        /// Решает с автоматическим контролем точности по правилу Рунге.
+        /// Если погрешность превышает epsilon — уменьшает шаг вдвое.
+        /// </summary>
+        public SolverResult SolveWithRungeControl(
+            DifferentialEquation equation,
+            double x0, double y0, double xn,
+            double h, double epsilon)
         {
             var result1 = Solve(equation, x0, y0, xn, h);
             var result2 = Solve(equation, x0, y0, xn, h / 2.0);
@@ -74,12 +93,13 @@ namespace EulerSolver.Services
             {
                 double yH = result1.Points[^1].Y;
                 double yH2 = result2.Points[^1].Y;
+
+                // Оценка погрешности по правилу Рунге для метода 2-го порядка
                 double rungeError = Math.Abs(yH - yH2) / 3.0;
 
                 if (rungeError > epsilon)
-                {
-                    return SolveWithRungeControl(equation, x0, y0, xn, h / 2.0, epsilon);
-                }
+                    return SolveWithRungeControl(
+                        equation, x0, y0, xn, h / 2.0, epsilon);
             }
 
             return result2;

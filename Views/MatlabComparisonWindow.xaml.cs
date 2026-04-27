@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 using EulerSolver.Controls;
-using EulerSolver.Models;
+using EulerSolver.Core.Models;
 using EulerSolver.Services;
 
 namespace EulerSolver.Views

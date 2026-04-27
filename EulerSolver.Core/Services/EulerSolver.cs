@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using EulerSolver.Models;
+using EulerSolver.Core.Models;
 
-namespace EulerSolver.Services
+namespace EulerSolver.Core.Services
 {
     /// <summary>
-    /// Обычный метод Эйлера (первый порядок точности)
-    /// Формула: y_{n+1} = y_n + h * f(x_n, y_n)
+    /// Обычный (явный) метод Эйлера первого порядка точности.
+    /// Формула: yₙ₊₁ = yₙ + h·f(xₙ, yₙ)
     /// Порядок точности: O(h)
     /// </summary>
     public class EulerSolver
     {
-        public SolverResult Solve(DifferentialEquation equation,
+        public SolverResult Solve(
+            DifferentialEquation equation,
             double x0, double y0, double xn, double h)
         {
             if (h <= 0)
@@ -49,7 +50,7 @@ namespace EulerSolver.Services
 
                 double xNext = x + currentH;
 
-                // Обычный метод Эйлера — одна формула
+                // Один шаг метода Эйлера
                 double yNext = y + currentH * f(x, y);
 
                 x = xNext;

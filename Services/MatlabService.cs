@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using EulerSolver.Models;
+using EulerSolver.Core.Models;
 
 namespace EulerSolver.Services
 {

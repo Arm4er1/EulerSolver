@@ -1,27 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace EulerSolver.Models
+namespace EulerSolver.Core.Models
 {
     /// <summary>
-    /// Результат сравнения двух методов в одной точке
+    /// Результат сравнения двух методов в одной точке x.
     /// </summary>
     public class ComparisonPoint
     {
         public double X { get; set; }
         public double YEuler { get; set; }
         public double YModified { get; set; }
+
+        /// <summary>Точное значение — null если решение не задано</summary>
         public double? YExact { get; set; }
 
-        // Погрешности обычного Эйлера
+        /// <summary>Абсолютная погрешность обычного Эйлера</summary>
         public double? ErrorEuler =>
-            YExact.HasValue ? System.Math.Abs(YEuler - YExact.Value) : null;
+            YExact.HasValue ? Math.Abs(YEuler - YExact.Value) : null;
 
-        // Погрешности модифицированного Эйлера
+        /// <summary>Абсолютная погрешность модифицированного Эйлера</summary>
         public double? ErrorModified =>
-            YExact.HasValue ? System.Math.Abs(YModified - YExact.Value) : null;
+            YExact.HasValue ? Math.Abs(YModified - YExact.Value) : null;
 
-        // Разница между методами
-        public double Difference => System.Math.Abs(YEuler - YModified);
+        /// <summary>
+        /// Разница между двумя численными методами.
+        /// Используется как оценка погрешности по Рунге
+        /// когда точное решение неизвестно.
+        /// </summary>
+        public double Difference => Math.Abs(YEuler - YModified);
 
         // Форматированные строки для таблицы
         public string XFormatted => X.ToString("F4");
@@ -34,7 +41,7 @@ namespace EulerSolver.Models
     }
 
     /// <summary>
-    /// Полный результат сравнения двух методов
+    /// Полный результат сравнения двух методов на всём отрезке.
     /// </summary>
     public class ComparisonResult
     {
@@ -44,43 +51,37 @@ namespace EulerSolver.Models
         public double X0 { get; set; }
         public double Xn { get; set; }
 
-        // Максимальные погрешности
+        /// <summary>Максимальная погрешность обычного Эйлера по всем точкам</summary>
         public double? MaxErrorEuler
         {
             get
             {
                 double? max = null;
                 foreach (var p in Points)
-                {
                     if (p.ErrorEuler.HasValue)
-                    {
                         if (!max.HasValue || p.ErrorEuler.Value > max.Value)
                             max = p.ErrorEuler.Value;
-                    }
-                }
                 return max;
             }
         }
 
+        /// <summary>Максимальная погрешность модифицированного Эйлера по всем точкам</summary>
         public double? MaxErrorModified
         {
             get
             {
                 double? max = null;
                 foreach (var p in Points)
-                {
                     if (p.ErrorModified.HasValue)
-                    {
                         if (!max.HasValue || p.ErrorModified.Value > max.Value)
                             max = p.ErrorModified.Value;
-                    }
-                }
                 return max;
             }
         }
 
         /// <summary>
-        /// Во сколько раз модифицированный метод точнее обычного
+        /// Текстовый вывод о соотношении точности методов.
+        /// Если точного решения нет — сообщает об этом.
         /// </summary>
         public string AccuracyComparison
         {
@@ -93,7 +94,8 @@ namespace EulerSolver.Models
                     return "Модифицированный метод значительно точнее";
 
                 double ratio = MaxErrorEuler.Value / MaxErrorModified.Value;
-                return "Модифицированный метод точнее в " + ratio.ToString("F1") + " раз";
+                return "Модифицированный метод точнее в " +
+                       ratio.ToString("F1") + " раз";
             }
         }
     }

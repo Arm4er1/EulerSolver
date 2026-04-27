@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using EulerSolver.Models;
-using EulerSolver.Services;
+using EulerSolver.Core.Models;
+using EulerSolver.Core.Services;
+
 
 namespace EulerSolver.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
         // Солверы и парсер
-        private readonly ModifiedEulerSolver _solver = new ModifiedEulerSolver();
-        private readonly Services.EulerSolver _eulerSolver = new Services.EulerSolver();
-        private readonly ExpressionParser _parser = new ExpressionParser();
+        private readonly EulerSolver.Core.Services.ModifiedEulerSolver _solver =
+    new EulerSolver.Core.Services.ModifiedEulerSolver();
+        private readonly EulerSolver.Core.Services.EulerSolver _eulerSolver =
+            new EulerSolver.Core.Services.EulerSolver();
+        private readonly EulerSolver.Core.Services.ExpressionParser _parser =
+            new EulerSolver.Core.Services.ExpressionParser();
 
         // Флаг: не сбрасывать SelectedExample когда мы сами меняем поля
         private bool _isSettingFromExample;

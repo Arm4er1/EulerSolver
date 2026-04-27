@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using EulerSolver.Controls;
-using EulerSolver.Models;
+using EulerSolver.Core.Models;
 
 namespace EulerSolver.Views
 {

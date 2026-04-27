@@ -1,13 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Text;
 
-namespace EulerSolver.Services
+namespace EulerSolver.Core.Services
 {
     /// <summary>
     /// Парсер математических выражений с переменными x и y.
-    /// Поддерживает: +, -, *, /, ^, скобки, унарный минус,
-    /// функции: sin, cos, tan, exp, ln, log, sqrt, abs
-    /// константы: pi, e
+    ///
+    /// Поддерживает:
+    ///   — операторы: + - * / ^ (степень), унарный минус
+    ///   — переменные: x, y
+    ///   — константы: pi, e
+    ///   — функции: sin, cos, tan/tg, cot/ctg, asin/arcsin, acos/arccos,
+    ///              atan/arctan/arctg, exp, ln, log/lg, sqrt, abs, sign,
+    ///              sinh/sh, cosh/ch, tanh/th
+    ///   — неявное умножение: 2x → 2*x, 2(x+1) → 2*(x+1)
+    ///
+    /// Реализует рекурсивный спуск по грамматике:
+    ///   Expression = Term (('+' | '-') Term)*
+    ///   Term       = Power (('*' | '/') Power)*
+    ///   Power      = Unary ('^' Unary)*        // правоассоциативно
+    ///   Unary      = ('-' | '+') Unary | Atom
+    ///   Atom       = Number | Variable | Function'('Expression')' | '('Expression')'
     /// </summary>
     public class ExpressionParser
     {
@@ -15,20 +28,20 @@ namespace EulerSolver.Services
         private int _pos;
 
         /// <summary>
-        /// Парсит строковое выражение и возвращает функцию f(x, y)
+        /// Компилирует строку в функцию f(x, y).
+        /// Выбрасывает ArgumentException если синтаксис некорректен.
         /// </summary>
         public Func<double, double, double> Parse(string expression)
         {
             if (string.IsNullOrWhiteSpace(expression))
                 throw new ArgumentException("Выражение не может быть пустым");
 
-            // Нормализация
+            // Нормализация: убираем пробелы, запятые → точки, всё в нижний регистр
             expression = expression
                 .Replace(" ", "")
                 .Replace(",", ".")
                 .ToLower();
 
-            // Проверка и замена неявного умножения: 2x -> 2*x, 3sin -> 3*sin, x(... -> x*(
             expression = InsertImplicitMultiplication(expression);
 
             _expression = expression;
@@ -37,62 +50,74 @@ namespace EulerSolver.Services
             var tree = ParseExpression();
 
             if (_pos < _expression.Length)
-                throw new ArgumentException($"Неожиданный символ '{_expression[_pos]}' на позиции {_pos + 1}");
+                throw new ArgumentException(
+                    $"Неожиданный символ '{_expression[_pos]}' на позиции {_pos + 1}");
 
             return (x, y) => tree(x, y);
         }
 
+        /// <summary>
+        /// Безопасная проверка: возвращает false и описание ошибки
+        /// вместо выброса исключения.
+        /// </summary>
+        public bool TryParse(string expression, out string error)
+        {
+            try
+            {
+                var func = Parse(expression);
+                func(1.0, 1.0); // пробное вычисление
+                error = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                return false;
+            }
+        }
+
         #region Неявное умножение
 
+        /// <summary>
+        /// Вставляет * там где подразумевается умножение:
+        /// 2x → 2*x,  2( → 2*(,  )x → )*x,  )( → )*(
+        /// </summary>
         private string InsertImplicitMultiplication(string expr)
         {
-            var result = new System.Text.StringBuilder();
+            var result = new StringBuilder();
 
             for (int i = 0; i < expr.Length; i++)
             {
                 result.Append(expr[i]);
 
-                if (i + 1 < expr.Length)
-                {
-                    char current = expr[i];
-                    char next = expr[i + 1];
+                if (i + 1 >= expr.Length) continue;
 
-                    bool needMultiply = false;
+                char cur = expr[i];
+                char next = expr[i + 1];
 
-                    // число перед буквой/скобкой: 2x, 2(, 2sin
-                    if ((char.IsDigit(current) || current == '.') &&
-                        (char.IsLetter(next) || next == '('))
-                        needMultiply = true;
+                bool needMul = false;
 
-                    // закрывающая скобка перед числом/буквой/открывающей скобкой
-                    if (current == ')' &&
-                        (char.IsDigit(next) || char.IsLetter(next) || next == '('))
-                        needMultiply = true;
+                // цифра/точка перед буквой или открывающей скобкой: 2x, 2sin, 2(
+                if ((char.IsDigit(cur) || cur == '.') &&
+                    (char.IsLetter(next) || next == '('))
+                    needMul = true;
 
-                    // переменная перед открывающей скобкой: x(
-                    if ((current == 'x' || current == 'y') && next == '(' &&
-                        (i == 0 || !char.IsLetter(expr[i - 1])))
-                        needMultiply = true;
+                // ) перед цифрой, буквой или (: )(, )x, )2
+                if (cur == ')' &&
+                    (char.IsDigit(next) || char.IsLetter(next) || next == '('))
+                    needMul = true;
 
-                    // переменная перед числом: x2 (маловероятно, но на всякий случай)
-                    if ((current == 'x' || current == 'y') && char.IsDigit(next) &&
-                        (i == 0 || !char.IsLetter(expr[i - 1])))
-                        needMultiply = true;
+                // переменная перед (: x(, y(  — но не часть имени функции
+                if ((cur == 'x' || cur == 'y') && next == '(' &&
+                    (i == 0 || !char.IsLetter(expr[i - 1])))
+                    needMul = true;
 
-                    if (needMultiply)
-                    {
-                        // Не вставляем * если это часть имени функции
-                        if (char.IsLetter(next) && char.IsLetter(current))
-                        {
-                            // Проверяем, не является ли текущая позиция частью имени функции
-                            // Пропускаем вставку
-                        }
-                        else
-                        {
-                            result.Append('*');
-                        }
-                    }
-                }
+                // Не вставляем * между двумя буквами — это имя функции (sin, cos…)
+                if (needMul && char.IsLetter(cur) && char.IsLetter(next))
+                    needMul = false;
+
+                if (needMul)
+                    result.Append('*');
             }
 
             return result.ToString();
@@ -102,28 +127,21 @@ namespace EulerSolver.Services
 
         #region Рекурсивный спуск
 
-        // Грамматика:
-        // Expression = Term (('+' | '-') Term)*
-        // Term       = Power (('*' | '/') Power)*
-        // Power      = Unary ('^' Unary)*
-        // Unary      = ('-' | '+') Unary | Atom
-        // Atom       = Number | Variable | Function '(' Expression ')' | '(' Expression ')'
-
         private Func<double, double, double> ParseExpression()
         {
             var left = ParseTerm();
 
-            while (_pos < _expression.Length && (_expression[_pos] == '+' || _expression[_pos] == '-'))
+            while (_pos < _expression.Length &&
+                   (_expression[_pos] == '+' || _expression[_pos] == '-'))
             {
                 char op = _expression[_pos++];
                 var right = ParseTerm();
                 var l = left;
                 var r = right;
 
-                if (op == '+')
-                    left = (x, y) => l(x, y) + r(x, y);
-                else
-                    left = (x, y) => l(x, y) - r(x, y);
+                left = op == '+'
+                    ? (x, y) => l(x, y) + r(x, y)
+                    : (x, y) => l(x, y) - r(x, y);
             }
 
             return left;
@@ -133,17 +151,17 @@ namespace EulerSolver.Services
         {
             var left = ParsePower();
 
-            while (_pos < _expression.Length && (_expression[_pos] == '*' || _expression[_pos] == '/'))
+            while (_pos < _expression.Length &&
+                   (_expression[_pos] == '*' || _expression[_pos] == '/'))
             {
                 char op = _expression[_pos++];
                 var right = ParsePower();
                 var l = left;
                 var r = right;
 
-                if (op == '*')
-                    left = (x, y) => l(x, y) * r(x, y);
-                else
-                    left = (x, y) => l(x, y) / r(x, y);
+                left = op == '*'
+                    ? (x, y) => l(x, y) * r(x, y)
+                    : (x, y) => l(x, y) / r(x, y);
             }
 
             return left;
@@ -156,9 +174,9 @@ namespace EulerSolver.Services
             if (_pos < _expression.Length && _expression[_pos] == '^')
             {
                 _pos++;
-                var exponent = ParseUnary(); // Правоассоциативный
+                var exp = ParseUnary(); // правоассоциативно — снова Unary, не Power
                 var b = baseExpr;
-                var e = exponent;
+                var e = exp;
                 return (x, y) => Math.Pow(b(x, y), e(x, y));
             }
 
@@ -188,59 +206,59 @@ namespace EulerSolver.Services
             if (_pos >= _expression.Length)
                 throw new ArgumentException("Неожиданный конец выражения");
 
-            // Скобки
+            // Скобочное выражение
             if (_expression[_pos] == '(')
             {
-                _pos++; // пропускаем '('
+                _pos++;
                 var expr = ParseExpression();
 
                 if (_pos >= _expression.Length || _expression[_pos] != ')')
                     throw new ArgumentException("Ожидалась закрывающая скобка ')'");
 
-                _pos++; // пропускаем ')'
+                _pos++;
                 return expr;
             }
 
-            // Число
+            // Числовой литерал
             if (char.IsDigit(_expression[_pos]) || _expression[_pos] == '.')
-            {
                 return ParseNumber();
-            }
 
-            // Переменная или функция или константа
+            // Идентификатор: переменная, константа или функция
             if (char.IsLetter(_expression[_pos]))
-            {
                 return ParseIdentifier();
-            }
 
-            throw new ArgumentException($"Неожиданный символ '{_expression[_pos]}' на позиции {_pos + 1}");
+            throw new ArgumentException(
+                $"Неожиданный символ '{_expression[_pos]}' на позиции {_pos + 1}");
         }
 
         private Func<double, double, double> ParseNumber()
         {
             int start = _pos;
 
-            while (_pos < _expression.Length && (char.IsDigit(_expression[_pos]) || _expression[_pos] == '.'))
+            while (_pos < _expression.Length &&
+                   (char.IsDigit(_expression[_pos]) || _expression[_pos] == '.'))
                 _pos++;
 
-            // Научная нотация: 1e-5, 2.5E3
-            if (_pos < _expression.Length && (_expression[_pos] == 'e') &&
-                (_pos + 1 < _expression.Length) &&
-                (char.IsDigit(_expression[_pos + 1]) || _expression[_pos + 1] == '-' || _expression[_pos + 1] == '+'))
+            // Научная нотация: 1e-5, 2.5e+3
+            if (_pos < _expression.Length && _expression[_pos] == 'e' &&
+                _pos + 1 < _expression.Length &&
+                (char.IsDigit(_expression[_pos + 1]) ||
+                 _expression[_pos + 1] == '-' ||
+                 _expression[_pos + 1] == '+'))
             {
                 _pos++; // 'e'
-                if (_expression[_pos] == '-' || _expression[_pos] == '+')
-                    _pos++;
+                if (_expression[_pos] == '-' || _expression[_pos] == '+') _pos++;
                 while (_pos < _expression.Length && char.IsDigit(_expression[_pos]))
                     _pos++;
             }
 
             string numStr = _expression.Substring(start, _pos - start);
-            if (!double.TryParse(numStr, System.Globalization.NumberStyles.Float,
-                System.Globalization.CultureInfo.InvariantCulture, out double value))
-            {
+
+            if (!double.TryParse(numStr,
+                    System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out double value))
                 throw new ArgumentException($"Не удалось распознать число: '{numStr}'");
-            }
 
             return (x, y) => value;
         }
@@ -262,14 +280,15 @@ namespace EulerSolver.Services
             if (name == "e" && (_pos >= _expression.Length || _expression[_pos] != '('))
                 return (x, y) => Math.E;
 
-            // Функции — требуют аргумент в скобках
+            // Функции — следующий символ обязан быть '('
             if (_pos < _expression.Length && _expression[_pos] == '(')
             {
                 _pos++; // пропускаем '('
                 var arg = ParseExpression();
 
                 if (_pos >= _expression.Length || _expression[_pos] != ')')
-                    throw new ArgumentException($"Ожидалась ')' после аргумента функции '{name}'");
+                    throw new ArgumentException(
+                        $"Ожидалась ')' после аргумента функции '{name}'");
 
                 _pos++; // пропускаем ')'
 
@@ -295,30 +314,12 @@ namespace EulerSolver.Services
                 };
             }
 
-            throw new ArgumentException($"Неизвестный идентификатор: '{name}'. " +
-                $"Допустимые переменные: x, y. Функции должны иметь аргумент в скобках, например sin(x)");
+            throw new ArgumentException(
+                $"Неизвестный идентификатор: '{name}'. " +
+                "Допустимые переменные: x, y. " +
+                "Функции должны иметь аргумент в скобках, например sin(x)");
         }
 
         #endregion
-
-        /// <summary>
-        /// Проверяет корректность выражения без выполнения
-        /// </summary>
-        public bool TryParse(string expression, out string error)
-        {
-            try
-            {
-                var func = Parse(expression);
-                // Пробное вычисление
-                func(1.0, 1.0);
-                error = "";
-                return true;
-            }
-            catch (Exception ex)
-            {
-                error = ex.Message;
-                return false;
-            }
-        }
     }
 }

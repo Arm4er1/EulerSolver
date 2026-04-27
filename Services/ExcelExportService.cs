@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using EulerSolver.Models;
+using EulerSolver.Core.Models;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace EulerSolver.Services
