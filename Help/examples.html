@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Примеры использования</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            margin: 20px 28px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #1976D2;
+            font-size: 20px;
+            border-bottom: 2px solid #1976D2;
+            padding-bottom: 6px;
+        }
+
+        h2 {
+            color: #1565C0;
+            font-size: 15px;
+            margin-top: 20px;
+        }
+
+        .example {
+            background: #F5F5F5;
+            border: 1px solid #DDD;
+            border-left: 4px solid #1976D2;
+            padding: 10px 16px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .exact {
+            color: #2E7D32;
+            font-weight: bold;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        th {
+            background: #1976D2;
+            color: white;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 7px 12px;
+            border-bottom: 1px solid #EEE;
+            font-family: 'Courier New', monospace;
+        }
+
+        tr:nth-child(even) {
+            background: #F5F5F5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Примеры использования</h1>
+
+    <h2>Как решить уравнение</h2>
+    <ol>
+        <li>Введите правую часть уравнения в поле <b>f(x, y)</b></li>
+        <li>Укажите начальные условия <b>x₀</b> и <b>y₀</b></li>
+        <li>Задайте правую границу <b>xₙ</b> и шаг <b>h</b></li>
+        <li>Нажмите кнопку <b>▶ Решить</b></li>
+        <li>Результат появится в таблице справа</li>
+    </ol>
+
+    <h2>Готовые примеры уравнений</h2>
+    <table>
+        <tr>
+            <th>Уравнение</th>
+            <th>f(x, y)</th>
+            <th>Точное решение</th>
+            <th>y₀</th>
+        </tr>
+        <tr>
+            <td>y' = y</td>
+            <td>y</td>
+            <td class="exact">exp(x)</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>y' = -y</td>
+            <td>-y</td>
+            <td class="exact">exp(-x)</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>y' = x + y</td>
+            <td>x + y</td>
+            <td class="exact">2*exp(x) - x - 1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>y' = x·y</td>
+            <td>x*y</td>
+            <td class="exact">exp(x^2/2)</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>y' = cos(x)</td>
+            <td>cos(x)</td>
+            <td class="exact">sin(x)</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>y' = 1 + y²</td>
+            <td>1 + y^2</td>
+            <td class="exact">tan(x)</td>
+            <td>0</td>
+        </tr>
+    </table>
+
+    <h2>Пример ввода произвольного уравнения</h2>
+    <p>Уравнение: <b>y' = x² - 2y + 1</b></p>
+    <div class="example">
+        f(x, y) = x^2 - 2*y + 1<br>
+        x₀ = 0<br>
+        y₀ = 0<br>
+        xₙ = 3<br>
+        h  = 0.1
+    </div>
+
+    <h2>Экспорт результатов</h2>
+    <ul>
+        <li><b>Меню Файл → Экспорт в Excel</b> — открывает таблицу с графиком в Excel</li>
+        <li><b>Меню Файл → Экспорт в Word</b> — создаёт отчёт в Word</li>
+        <li><b>Меню Файл → Сохранить CSV</b> — сохраняет числовые данные в файл</li>
+    </ul>
+</body>
+</html>

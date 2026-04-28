@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>О программе</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            margin: 20px 28px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #1976D2;
+            font-size: 20px;
+            border-bottom: 2px solid #1976D2;
+            padding-bottom: 6px;
+        }
+
+        h2 {
+            color: #1565C0;
+            font-size: 15px;
+            margin-top: 18px;
+        }
+
+        .info-box {
+            background: #E3F2FD;
+            border-left: 4px solid #1976D2;
+            padding: 10px 14px;
+            margin: 14px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        ul {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Решение ОДУ модифицированным методом Эйлера</h1>
+
+    <div class="info-box">
+        <strong>Курсовой проект</strong> по дисциплине
+        «Разработка приложений в визуальных средах»<br>
+        Выполнил: студент группы 10701324 Никитин Денис Алексеевич
+    </div>
+
+    <h2>Назначение программы</h2>
+    <p>
+        Программа предназначена для численного решения задачи Коши
+        для обыкновенных дифференциальных уравнений (ОДУ) первого порядка
+        вида <b>y' = f(x, y)</b> на заданном отрезке [x₀; xₙ]
+        с начальным условием <b>y(x₀) = y₀</b>.
+    </p>
+
+    <h2>Возможности программы</h2>
+    <ul>
+        <li>Решение ОДУ модифицированным методом Эйлера (Эйлер-Коши)</li>
+        <li>Ввод произвольного выражения f(x, y)</li>
+        <li>Автоматический подбор точного решения для типовых уравнений</li>
+        <li>Отображение результатов в таблице с погрешностями</li>
+        <li>Построение интерактивного 3D графика решения</li>
+        <li>Сравнение с обычным методом Эйлера</li>
+        <li>Сравнение с решением MATLAB (ode45)</li>
+        <li>Экспорт результатов в Excel, Word, CSV</li>
+        <li>Контроль точности по правилу Рунге</li>
+    </ul>
+
+    <h2>Системные требования</h2>
+    <ul>
+        <li>Windows 10 / 11</li>
+        <li>.NET 9.0</li>
+        <li>Microsoft Office (для экспорта в Excel и Word)</li>
+        <li>MATLAB (опционально, для сравнения с ode45)</li>
+    </ul>
+</body>
+</html>

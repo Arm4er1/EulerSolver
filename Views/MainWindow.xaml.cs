@@ -85,6 +85,89 @@ namespace EulerSolver.Views
             window.ShowDialog();
         }
 
+        private void MenuHelp_Click(object sender, RoutedEventArgs e)
+        {
+            OpenHelp();
+        }
+
+        private void OpenHelp()
+        {
+            try
+            {
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                string helpPath = System.IO.Path.Combine(baseDir, "EulerSolverHelp.chm");
+
+                if (!System.IO.File.Exists(helpPath))
+                    helpPath = System.IO.Path.Combine(baseDir, "Help", "EulerSolverHelp.chm");
+
+                if (!System.IO.File.Exists(helpPath))
+                {
+                    MessageBox.Show(
+                        "Файл справки не найден:\n" + helpPath,
+                        "Справка недоступна",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Копируем CHM во временную папку на диске C:
+                // и снимаем блокировку через alternate data stream
+                string tempPath = System.IO.Path.Combine(
+                    System.IO.Path.GetTempPath(), "EulerSolverHelp.chm");
+
+                System.IO.File.Copy(helpPath, tempPath, overwrite: true);
+
+                // Снимаем блокировку — удаляем Zone.Identifier stream
+                UnblockFile(tempPath);
+
+                System.Diagnostics.Process.Start(
+                    new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = "hh.exe",
+                        Arguments = "\"" + tempPath + "\"",
+                        UseShellExecute = true
+                    });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Не удалось открыть справку:\n" + ex.Message,
+                    "Ошибка",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Снимает блокировку с файла удаляя Zone.Identifier
+        /// (alternate data stream который Windows добавляет к загруженным файлам)
+        /// </summary>
+        private void UnblockFile(string filePath)
+        {
+            try
+            {
+                // Путь к Zone.Identifier stream
+                string zoneIdentifier = filePath + ":Zone.Identifier";
+
+                // Удаляем через команду
+                var psi = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    Arguments = $"/c echo.> \"{zoneIdentifier}\"",
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = false
+                };
+
+                var proc = System.Diagnostics.Process.Start(psi);
+                proc?.WaitForExit(2000);
+            }
+            catch
+            {
+                // Не критично — продолжаем даже если не удалось снять блокировку
+            }
+        }
+
         private void SetStatus(string text)
         {
             var vm = (MainViewModel)DataContext;

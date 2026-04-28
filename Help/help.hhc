@@ -1,0 +1,37 @@
+﻿<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+</HEAD>
+<BODY>
+<OBJECT type="text/site properties">
+    <param name="ImageType" value="Folder">
+</OBJECT>
+<UL>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="О программе">
+        <param name="Local" value="index.html">
+    </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Метод Эйлера-Коши">
+        <param name="Local" value="method.html">
+    </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Синтаксис выражений">
+        <param name="Local" value="syntax.html">
+    </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Примеры использования">
+        <param name="Local" value="examples.html">
+    </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Сравнение методов">
+        <param name="Local" value="comparison.html">
+    </OBJECT>
+    <LI><OBJECT type="text/sitemap">
+        <param name="Name" value="Сравнение с MATLAB">
+        <param name="Local" value="matlab.html">
+    </OBJECT>
+</UL>
+</BODY>
+</HTML>

@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Метод Эйлера-Коши</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            margin: 20px 28px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #1976D2;
+            font-size: 20px;
+            border-bottom: 2px solid #1976D2;
+            padding-bottom: 6px;
+        }
+
+        h2 {
+            color: #1565C0;
+            font-size: 15px;
+            margin-top: 18px;
+        }
+
+        .formula {
+            background: #F5F5F5;
+            border: 1px solid #DDD;
+            border-left: 4px solid #1976D2;
+            padding: 10px 16px;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .note {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            padding: 8px 14px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 12px 0;
+        }
+
+        th {
+            background: #1976D2;
+            color: white;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 7px 12px;
+            border-bottom: 1px solid #EEE;
+        }
+
+        tr:nth-child(even) {
+            background: #F5F5F5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Модифицированный метод Эйлера (Эйлер-Коши)</h1>
+
+    <h2>Постановка задачи</h2>
+    <p>Решается задача Коши:</p>
+    <div class="formula">
+        y' = f(x, y),&nbsp;&nbsp; y(x₀) = y₀,&nbsp;&nbsp; x ∈ [x₀; xₙ]
+    </div>
+
+    <h2>Алгоритм метода</h2>
+    <p>
+        На каждом шаге интегрирования выполняются два вычисления:
+    </p>
+
+    <p><strong>Шаг 1 — Предиктор (прогноз):</strong></p>
+    <div class="formula">
+        ŷₙ₊₁ = yₙ + h · f(xₙ, yₙ)
+    </div>
+
+    <p><strong>Шаг 2 — Корректор (уточнение):</strong></p>
+    <div class="formula">
+        yₙ₊₁ = yₙ + (h / 2) · [ f(xₙ, yₙ) + f(xₙ₊₁, ŷₙ₊₁) ]
+    </div>
+
+    <p>где:</p>
+    <ul>
+        <li><b>h</b> — шаг интегрирования</li>
+        <li><b>xₙ₊₁ = xₙ + h</b></li>
+        <li><b>ŷₙ₊₁</b> — предварительное (предикторное) значение</li>
+        <li><b>yₙ₊₁</b> — уточнённое значение</li>
+    </ul>
+
+    <h2>Характеристики метода</h2>
+    <table>
+        <tr><th>Характеристика</th><th>Значение</th></tr>
+        <tr><td>Порядок точности</td><td>O(h²)</td></tr>
+        <tr><td>Количество вычислений f на шаг</td><td>2</td></tr>
+        <tr><td>Тип метода</td><td>Явный предиктор-корректор</td></tr>
+        <tr><td>Устойчивость</td><td>Условно устойчив</td></tr>
+    </table>
+
+    <h2>Контроль точности (правило Рунге)</h2>
+    <p>
+        При включённом контроле точности программа решает задачу
+        дважды — с шагом h и с шагом h/2. Оценка погрешности:
+    </p>
+    <div class="formula">
+        ε ≈ |y(h) - y(h/2)| / 3
+    </div>
+    <p>
+        Если оценка превышает заданную точность ε, шаг уменьшается
+        вдвое и вычисление повторяется.
+    </p>
+
+    <div class="note">
+        <strong>Сравнение методов:</strong> обычный метод Эйлера имеет
+        порядок точности O(h), модифицированный — O(h²).
+        При уменьшении шага вдвое погрешность модифицированного
+        метода уменьшается в 4 раза.
+    </div>
+</body>
+</html>

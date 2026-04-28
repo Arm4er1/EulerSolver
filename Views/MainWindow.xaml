@@ -13,6 +13,10 @@
         <vm:MainViewModel/>
     </Window.DataContext>
 
+    <Window.InputBindings>
+        <KeyBinding Key="F1" Command="{Binding HelpCommand}"/>
+    </Window.InputBindings>
+
     <Window.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
 
@@ -232,10 +236,14 @@
 
             <!-- Справка -->
             <MenuItem Header="Справка" Padding="12,6">
+                <MenuItem Header="📖 Руководство пользователя (F1)"
+              Click="MenuHelp_Click"
+              InputGestureText="F1"/>
+                <Separator/>
                 <MenuItem Header="ℹ️ О программе"
-                          Click="MenuAbout_Click"/>
+              Click="MenuAbout_Click"/>
                 <MenuItem Header="👤 Об авторе"
-                          Click="MenuAuthor_Click"/>
+              Click="MenuAuthor_Click"/>
             </MenuItem>
         </Menu>
 

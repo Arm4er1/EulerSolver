@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сравнение с MATLAB</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            margin: 20px 28px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #1976D2;
+            font-size: 20px;
+            border-bottom: 2px solid #1976D2;
+            padding-bottom: 6px;
+        }
+
+        h2 {
+            color: #1565C0;
+            font-size: 15px;
+            margin-top: 18px;
+        }
+
+        .step {
+            background: #F5F5F5;
+            border-left: 4px solid #FF9800;
+            padding: 8px 14px;
+            margin: 8px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .warn {
+            background: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            padding: 8px 14px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Сравнение с MATLAB (ode45)</h1>
+
+    <h2>Как работает интеграция с MATLAB</h2>
+    <ol>
+        <li>Нажмите кнопку <b>🔬 Решить в MATLAB</b></li>
+        <li>Программа автоматически генерирует скрипт (.m файл)</li>
+        <li>MATLAB запускается и решает ОДУ методом <b>ode45</b></li>
+        <li>Результат передаётся обратно через временный CSV файл</li>
+        <li>Открывается окно сравнения с графиком и таблицей</li>
+    </ol>
+
+    <h2>Метод ode45</h2>
+    <p>
+        MATLAB использует метод Рунге-Кутта 4-5 порядка с автоматическим
+        контролем шага. Это значительно более точный метод чем метод Эйлера,
+        что позволяет оценить погрешность нашего численного решения.
+    </p>
+
+    <h2>Требования</h2>
+    <div class="step">
+        MATLAB должен быть установлен на компьютере.<br>
+        Поддерживаемые версии: R2022a и выше.
+    </div>
+
+    <div class="warn">
+        <strong>Внимание:</strong> первый запуск MATLAB может занять
+        15–30 секунд. Не закрывайте программу во время ожидания —
+        статусная строка покажет прогресс.
+    </div>
+
+    <h2>Синтаксис уравнений для MATLAB</h2>
+    <p>
+        Уравнение конвертируется автоматически.
+        Функция <code>ln(x)</code> преобразуется в <code>log(x)</code>
+        (натуральный логарифм в MATLAB).
+        Остальные функции совместимы напрямую.
+    </p>
+</body>
+</html>

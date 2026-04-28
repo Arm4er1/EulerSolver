@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сравнение методов</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            margin: 20px 28px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #1976D2;
+            font-size: 20px;
+            border-bottom: 2px solid #1976D2;
+            padding-bottom: 6px;
+        }
+
+        h2 {
+            color: #1565C0;
+            font-size: 15px;
+            margin-top: 18px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        th {
+            background: #1976D2;
+            color: white;
+            padding: 8px 12px;
+        }
+
+        td {
+            padding: 7px 12px;
+            border-bottom: 1px solid #EEE;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background: #F5F5F5;
+        }
+
+        .euler {
+            color: #C62828;
+            font-weight: bold;
+        }
+
+        .mod {
+            color: #1565C0;
+            font-weight: bold;
+        }
+
+        .note {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            padding: 8px 14px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Сравнение методов Эйлера</h1>
+
+    <h2>Обычный метод Эйлера</h2>
+    <p>Формула одного шага:</p>
+    <blockquote>
+        <code>yₙ₊₁ = yₙ + h · f(xₙ, yₙ)</code>
+    </blockquote>
+    <ul>
+        <li>Порядок точности: <span class="euler">O(h)</span></li>
+        <li>Вычислений f на шаг: 1</li>
+        <li>Простейший явный метод</li>
+    </ul>
+
+    <h2>Модифицированный метод Эйлера</h2>
+    <p>Предиктор + корректор:</p>
+    <blockquote>
+        <code>ŷₙ₊₁ = yₙ + h · f(xₙ, yₙ)</code><br>
+        <code>yₙ₊₁ = yₙ + (h/2) · [f(xₙ,yₙ) + f(xₙ₊₁,ŷₙ₊₁)]</code>
+    </blockquote>
+    <ul>
+        <li>Порядок точности: <span class="mod">O(h²)</span></li>
+        <li>Вычислений f на шаг: 2</li>
+        <li>Значительно точнее при том же шаге</li>
+    </ul>
+
+    <h2>Сравнительная таблица</h2>
+    <table>
+        <tr>
+            <th>Характеристика</th>
+            <th class="euler">Эйлер</th>
+            <th class="mod">Мод. Эйлер</th>
+        </tr>
+        <tr>
+            <td>Порядок точности</td>
+            <td>O(h)</td>
+            <td>O(h²)</td>
+        </tr>
+        <tr>
+            <td>Вычислений f за шаг</td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>При уменьшении h вдвое погрешность</td>
+            <td>уменьшается в 2 раза</td>
+            <td>уменьшается в 4 раза</td>
+        </tr>
+    </table>
+
+    <div class="note">
+        Кнопка <b>⚖ Сравнить методы</b> открывает окно с таблицей
+        и графиком сравнения обоих методов. Если точное решение не задано —
+        показывается разница между методами как оценка погрешности по Рунге.
+    </div>
+</body>
+</html>

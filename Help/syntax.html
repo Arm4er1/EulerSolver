@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Синтаксис выражений</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
+            margin: 20px 28px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #1976D2;
+            font-size: 20px;
+            border-bottom: 2px solid #1976D2;
+            padding-bottom: 6px;
+        }
+
+        h2 {
+            color: #1565C0;
+            font-size: 15px;
+            margin-top: 18px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        th {
+            background: #1976D2;
+            color: white;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 7px 12px;
+            border-bottom: 1px solid #EEE;
+            font-family: 'Courier New', monospace;
+        }
+
+            td:first-child {
+                font-weight: bold;
+                color: #1565C0;
+            }
+
+        tr:nth-child(even) {
+            background: #F5F5F5;
+        }
+
+        .warn {
+            background: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            padding: 8px 14px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Синтаксис математических выражений</h1>
+
+    <h2>Переменные и константы</h2>
+    <table>
+        <tr><th>Обозначение</th><th>Значение</th></tr>
+        <tr><td>x</td><td>Независимая переменная</td></tr>
+        <tr><td>y</td><td>Зависимая переменная (искомая функция)</td></tr>
+        <tr><td>pi</td><td>Число π ≈ 3.14159...</td></tr>
+        <tr><td>e</td><td>Число e ≈ 2.71828...</td></tr>
+    </table>
+
+    <h2>Арифметические операции</h2>
+    <table>
+        <tr><th>Операция</th><th>Пример</th><th>Результат</th></tr>
+        <tr><td>+</td><td>x + y</td><td>Сложение</td></tr>
+        <tr><td>-</td><td>x - y</td><td>Вычитание</td></tr>
+        <tr><td>*</td><td>2*x</td><td>Умножение</td></tr>
+        <tr><td>/</td><td>x/2</td><td>Деление</td></tr>
+        <tr><td>^</td><td>x^2</td><td>Возведение в степень</td></tr>
+        <tr><td>-</td><td>-y</td><td>Унарный минус</td></tr>
+    </table>
+
+    <h2>Поддерживаемые функции</h2>
+    <table>
+        <tr><th>Функция</th><th>Описание</th><th>Пример</th></tr>
+        <tr><td>sin(x)</td><td>Синус</td><td>sin(x)</td></tr>
+        <tr><td>cos(x)</td><td>Косинус</td><td>cos(x)</td></tr>
+        <tr><td>tan(x), tg(x)</td><td>Тангенс</td><td>tan(x)</td></tr>
+        <tr><td>cot(x), ctg(x)</td><td>Котангенс</td><td>ctg(x)</td></tr>
+        <tr><td>asin(x), arcsin(x)</td><td>Арксинус</td><td>arcsin(x)</td></tr>
+        <tr><td>acos(x), arccos(x)</td><td>Арккосинус</td><td>arccos(x)</td></tr>
+        <tr><td>atan(x), arctan(x)</td><td>Арктангенс</td><td>atan(x)</td></tr>
+        <tr><td>exp(x)</td><td>Экспонента eˣ</td><td>exp(x)</td></tr>
+        <tr><td>ln(x)</td><td>Натуральный логарифм</td><td>ln(x)</td></tr>
+        <tr><td>log(x), lg(x)</td><td>Десятичный логарифм</td><td>log(x)</td></tr>
+        <tr><td>sqrt(x)</td><td>Квадратный корень</td><td>sqrt(x)</td></tr>
+        <tr><td>abs(x)</td><td>Модуль</td><td>abs(x)</td></tr>
+        <tr><td>sinh(x), sh(x)</td><td>Гиперболический синус</td><td>sinh(x)</td></tr>
+        <tr><td>cosh(x), ch(x)</td><td>Гиперболический косинус</td><td>cosh(x)</td></tr>
+        <tr><td>tanh(x), th(x)</td><td>Гиперболический тангенс</td><td>tanh(x)</td></tr>
+    </table>
+
+    <h2>Неявное умножение</h2>
+    <p>Программа автоматически вставляет знак умножения в очевидных случаях:</p>
+    <table>
+        <tr><th>Ввод</th><th>Интерпретация</th></tr>
+        <tr><td>2x</td><td>2 * x</td></tr>
+        <tr><td>2sin(x)</td><td>2 * sin(x)</td></tr>
+        <tr><td>x(x+1)</td><td>x * (x + 1)</td></tr>
+    </table>
+
+    <div class="warn">
+        <strong>Внимание:</strong> для деления используй скобки.
+        Например: <code>1/(x+y)</code>, а не <code>1/x+y</code>
+        (последнее вычислится как <code>(1/x) + y</code>).
+    </div>
+</body>
+</html>

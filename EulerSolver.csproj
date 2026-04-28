@@ -18,6 +18,12 @@
 	 <Content Remove="EulerSolver.Core\**\*" />
    </ItemGroup>
 
+	<ItemGroup>
+		<Content Include="Help/EulerSolverHelp.chm">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
   <ItemGroup>
     <None Remove="Assets\author.jpg" />
   </ItemGroup>
