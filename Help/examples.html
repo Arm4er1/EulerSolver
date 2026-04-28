@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
     <title>Примеры использования</title>
     <style>
@@ -62,18 +62,31 @@
         tr:nth-child(even) {
             background: #F5F5F5;
         }
+
+        ol {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        ul {
+            padding-left: 22px;
+        }
     </style>
-</head>
-<body>
+</HEAD>
+<BODY>
     <h1>Примеры использования</h1>
 
     <h2>Как решить уравнение</h2>
     <ol>
         <li>Введите правую часть уравнения в поле <b>f(x, y)</b></li>
-        <li>Укажите начальные условия <b>x?</b> и <b>y?</b></li>
-        <li>Задайте правую границу <b>x?</b> и шаг <b>h</b></li>
-        <li>Нажмите кнопку <b>? Решить</b></li>
+        <li>Укажите начальные условия <b>x0</b> и <b>y0</b></li>
+        <li>Задайте правую границу <b>xn</b> и шаг <b>h</b></li>
+        <li>Нажмите кнопку <b>Решить</b></li>
         <li>Результат появится в таблице справа</li>
+        <li>Нажмите <b>Показать график</b> для визуализации</li>
     </ol>
 
     <h2>Готовые примеры уравнений</h2>
@@ -82,7 +95,7 @@
             <th>Уравнение</th>
             <th>f(x, y)</th>
             <th>Точное решение</th>
-            <th>y?</th>
+            <th>y0</th>
         </tr>
         <tr>
             <td>y' = y</td>
@@ -103,7 +116,7 @@
             <td>1</td>
         </tr>
         <tr>
-            <td>y' = x·y</td>
+            <td>y' = x*y</td>
             <td>x*y</td>
             <td class="exact">exp(x^2/2)</td>
             <td>1</td>
@@ -115,28 +128,56 @@
             <td>0</td>
         </tr>
         <tr>
-            <td>y' = 1 + y?</td>
+            <td>y' = 1 + y^2</td>
             <td>1 + y^2</td>
             <td class="exact">tan(x)</td>
             <td>0</td>
         </tr>
+        <tr>
+            <td>y' = 2*x</td>
+            <td>2*x</td>
+            <td class="exact">x^2</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>y' = -sin(x)</td>
+            <td>-sin(x)</td>
+            <td class="exact">cos(x)</td>
+            <td>1</td>
+        </tr>
     </table>
 
     <h2>Пример ввода произвольного уравнения</h2>
-    <p>Уравнение: <b>y' = x? - 2y + 1</b></p>
+    <p>Уравнение: <b>y' = x^2 - 2*y + 1</b></p>
     <div class="example">
         f(x, y) = x^2 - 2*y + 1<br>
-        x? = 0<br>
-        y? = 0<br>
-        x? = 3<br>
+        x0 = 0<br>
+        y0 = 0<br>
+        xn = 3<br>
         h  = 0.1
     </div>
 
     <h2>Экспорт результатов</h2>
     <ul>
-        <li><b>Меню Файл > Экспорт в Excel</b> — открывает таблицу с графиком в Excel</li>
-        <li><b>Меню Файл > Экспорт в Word</b> — создаёт отчёт в Word</li>
-        <li><b>Меню Файл > Сохранить CSV</b> — сохраняет числовые данные в файл</li>
+        <li>
+            <b>Файл &mdash; Экспорт в Excel</b> &mdash;
+            открывает таблицу с графиком в Excel
+        </li>
+        <li>
+            <b>Файл &mdash; Экспорт в Word</b> &mdash;
+            создаёт отчёт в Word
+        </li>
+        <li>
+            <b>Файл &mdash; Сохранить CSV</b> &mdash;
+            сохраняет числовые данные в файл
+        </li>
     </ul>
-</body>
-</html>
+
+    <h2>Готовые примеры в программе</h2>
+    <p>
+        В выпадающем списке <b>Готовые примеры</b> доступны
+        8 предустановленных уравнений с известными точными решениями.
+        При выборе примера все параметры заполняются автоматически.
+    </p>
+</BODY>
+</HTML>

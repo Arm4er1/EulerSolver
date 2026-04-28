@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
     <title>Синтаксис выражений</title>
     <style>
@@ -61,9 +61,16 @@
             border-radius: 0 4px 4px 0;
             font-family: sans-serif;
         }
+
+        code {
+            background: #F5F5F5;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
     </style>
-</head>
-<body>
+</HEAD>
+<BODY>
     <h1>Синтаксис математических выражений</h1>
 
     <h2>Переменные и константы</h2>
@@ -71,8 +78,8 @@
         <tr><th>Обозначение</th><th>Значение</th></tr>
         <tr><td>x</td><td>Независимая переменная</td></tr>
         <tr><td>y</td><td>Зависимая переменная (искомая функция)</td></tr>
-        <tr><td>pi</td><td>Число ? ? 3.14159...</td></tr>
-        <tr><td>e</td><td>Число e ? 2.71828...</td></tr>
+        <tr><td>pi</td><td>Число &pi; &asymp; 3.14159...</td></tr>
+        <tr><td>e</td><td>Число e &asymp; 2.71828...</td></tr>
     </table>
 
     <h2>Арифметические операции</h2>
@@ -83,7 +90,7 @@
         <tr><td>*</td><td>2*x</td><td>Умножение</td></tr>
         <tr><td>/</td><td>x/2</td><td>Деление</td></tr>
         <tr><td>^</td><td>x^2</td><td>Возведение в степень</td></tr>
-        <tr><td>-</td><td>-y</td><td>Унарный минус</td></tr>
+        <tr><td>- (унарный)</td><td>-y</td><td>Смена знака</td></tr>
     </table>
 
     <h2>Поддерживаемые функции</h2>
@@ -96,18 +103,18 @@
         <tr><td>asin(x), arcsin(x)</td><td>Арксинус</td><td>arcsin(x)</td></tr>
         <tr><td>acos(x), arccos(x)</td><td>Арккосинус</td><td>arccos(x)</td></tr>
         <tr><td>atan(x), arctan(x)</td><td>Арктангенс</td><td>atan(x)</td></tr>
-        <tr><td>exp(x)</td><td>Экспонента e?</td><td>exp(x)</td></tr>
+        <tr><td>exp(x)</td><td>Экспонента e^x</td><td>exp(x)</td></tr>
         <tr><td>ln(x)</td><td>Натуральный логарифм</td><td>ln(x)</td></tr>
         <tr><td>log(x), lg(x)</td><td>Десятичный логарифм</td><td>log(x)</td></tr>
         <tr><td>sqrt(x)</td><td>Квадратный корень</td><td>sqrt(x)</td></tr>
-        <tr><td>abs(x)</td><td>Модуль</td><td>abs(x)</td></tr>
+        <tr><td>abs(x)</td><td>Модуль числа</td><td>abs(x)</td></tr>
         <tr><td>sinh(x), sh(x)</td><td>Гиперболический синус</td><td>sinh(x)</td></tr>
         <tr><td>cosh(x), ch(x)</td><td>Гиперболический косинус</td><td>cosh(x)</td></tr>
         <tr><td>tanh(x), th(x)</td><td>Гиперболический тангенс</td><td>tanh(x)</td></tr>
     </table>
 
     <h2>Неявное умножение</h2>
-    <p>Программа автоматически вставляет знак умножения в очевидных случаях:</p>
+    <p>Программа автоматически вставляет знак умножения:</p>
     <table>
         <tr><th>Ввод</th><th>Интерпретация</th></tr>
         <tr><td>2x</td><td>2 * x</td></tr>
@@ -120,5 +127,5 @@
         Например: <code>1/(x+y)</code>, а не <code>1/x+y</code>
         (последнее вычислится как <code>(1/x) + y</code>).
     </div>
-</body>
-</html>
+</BODY>
+</HTML>

@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
     <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
     <title>Сравнение методов</title>
     <style>
@@ -64,16 +64,33 @@
             margin: 10px 0;
             border-radius: 0 4px 4px 0;
         }
+
+        .formula {
+            background: #F5F5F5;
+            border-left: 4px solid #1976D2;
+            padding: 8px 16px;
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 0 4px 4px 0;
+        }
+
+        ul {
+            padding-left: 22px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
     </style>
-</head>
-<body>
+</HEAD>
+<BODY>
     <h1>Сравнение методов Эйлера</h1>
 
     <h2>Обычный метод Эйлера</h2>
     <p>Формула одного шага:</p>
-    <blockquote>
-        <code>y??? = y? + h · f(x?, y?)</code>
-    </blockquote>
+    <div class="formula">
+        y[n+1] = y[n] + h &middot; f(x[n], y[n])
+    </div>
     <ul>
         <li>Порядок точности: <span class="euler">O(h)</span></li>
         <li>Вычислений f на шаг: 1</li>
@@ -82,12 +99,12 @@
 
     <h2>Модифицированный метод Эйлера</h2>
     <p>Предиктор + корректор:</p>
-    <blockquote>
-        <code>y??? = y? + h · f(x?, y?)</code><br>
-        <code>y??? = y? + (h/2) · [f(x?,y?) + f(x???,y???)]</code>
-    </blockquote>
+    <div class="formula">
+        y*[n+1] = y[n] + h &middot; f(x[n], y[n])<br>
+        y[n+1]  = y[n] + (h/2) &middot; [f(x[n], y[n]) + f(x[n+1], y*[n+1])]
+    </div>
     <ul>
-        <li>Порядок точности: <span class="mod">O(h?)</span></li>
+        <li>Порядок точности: <span class="mod">O(h^2)</span></li>
         <li>Вычислений f на шаг: 2</li>
         <li>Значительно точнее при том же шаге</li>
     </ul>
@@ -96,13 +113,13 @@
     <table>
         <tr>
             <th>Характеристика</th>
-            <th class="euler">Эйлер</th>
-            <th class="mod">Мод. Эйлер</th>
+            <th>Эйлер</th>
+            <th>Мод. Эйлер</th>
         </tr>
         <tr>
             <td>Порядок точности</td>
             <td>O(h)</td>
-            <td>O(h?)</td>
+            <td>O(h^2)</td>
         </tr>
         <tr>
             <td>Вычислений f за шаг</td>
@@ -114,12 +131,18 @@
             <td>уменьшается в 2 раза</td>
             <td>уменьшается в 4 раза</td>
         </tr>
+        <tr>
+            <td>Глобальная погрешность</td>
+            <td>O(h)</td>
+            <td>O(h^2)</td>
+        </tr>
     </table>
 
     <div class="note">
-        Кнопка <b>? Сравнить методы</b> открывает окно с таблицей
-        и графиком сравнения обоих методов. Если точное решение не задано —
-        показывается разница между методами как оценка погрешности по Рунге.
+        Кнопка <b>Сравнить методы</b> открывает окно с таблицей
+        и графиком сравнения обоих методов. Если точное решение
+        не задано &mdash; показывается разница между методами
+        как оценка погрешности по Рунге.
     </div>
-</body>
-</html>
+</BODY>
+</HTML>
