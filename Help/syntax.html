@@ -1,8 +1,8 @@
-п»ї<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>РЎРёРЅС‚Р°РєСЃРёСЃ РІС‹СЂР°Р¶РµРЅРёР№</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+    <title>Синтаксис выражений</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -64,61 +64,61 @@
     </style>
 </head>
 <body>
-    <h1>РЎРёРЅС‚Р°РєСЃРёСЃ РјР°С‚РµРјР°С‚РёС‡РµСЃРєРёС… РІС‹СЂР°Р¶РµРЅРёР№</h1>
+    <h1>Синтаксис математических выражений</h1>
 
-    <h2>РџРµСЂРµРјРµРЅРЅС‹Рµ Рё РєРѕРЅСЃС‚Р°РЅС‚С‹</h2>
+    <h2>Переменные и константы</h2>
     <table>
-        <tr><th>РћР±РѕР·РЅР°С‡РµРЅРёРµ</th><th>Р—РЅР°С‡РµРЅРёРµ</th></tr>
-        <tr><td>x</td><td>РќРµР·Р°РІРёСЃРёРјР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ</td></tr>
-        <tr><td>y</td><td>Р—Р°РІРёСЃРёРјР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ (РёСЃРєРѕРјР°СЏ С„СѓРЅРєС†РёСЏ)</td></tr>
-        <tr><td>pi</td><td>Р§РёСЃР»Рѕ ПЂ в‰€ 3.14159...</td></tr>
-        <tr><td>e</td><td>Р§РёСЃР»Рѕ e в‰€ 2.71828...</td></tr>
+        <tr><th>Обозначение</th><th>Значение</th></tr>
+        <tr><td>x</td><td>Независимая переменная</td></tr>
+        <tr><td>y</td><td>Зависимая переменная (искомая функция)</td></tr>
+        <tr><td>pi</td><td>Число ? ? 3.14159...</td></tr>
+        <tr><td>e</td><td>Число e ? 2.71828...</td></tr>
     </table>
 
-    <h2>РђСЂРёС„РјРµС‚РёС‡РµСЃРєРёРµ РѕРїРµСЂР°С†РёРё</h2>
+    <h2>Арифметические операции</h2>
     <table>
-        <tr><th>РћРїРµСЂР°С†РёСЏ</th><th>РџСЂРёРјРµСЂ</th><th>Р РµР·СѓР»СЊС‚Р°С‚</th></tr>
-        <tr><td>+</td><td>x + y</td><td>РЎР»РѕР¶РµРЅРёРµ</td></tr>
-        <tr><td>-</td><td>x - y</td><td>Р’С‹С‡РёС‚Р°РЅРёРµ</td></tr>
-        <tr><td>*</td><td>2*x</td><td>РЈРјРЅРѕР¶РµРЅРёРµ</td></tr>
-        <tr><td>/</td><td>x/2</td><td>Р”РµР»РµРЅРёРµ</td></tr>
-        <tr><td>^</td><td>x^2</td><td>Р’РѕР·РІРµРґРµРЅРёРµ РІ СЃС‚РµРїРµРЅСЊ</td></tr>
-        <tr><td>-</td><td>-y</td><td>РЈРЅР°СЂРЅС‹Р№ РјРёРЅСѓСЃ</td></tr>
+        <tr><th>Операция</th><th>Пример</th><th>Результат</th></tr>
+        <tr><td>+</td><td>x + y</td><td>Сложение</td></tr>
+        <tr><td>-</td><td>x - y</td><td>Вычитание</td></tr>
+        <tr><td>*</td><td>2*x</td><td>Умножение</td></tr>
+        <tr><td>/</td><td>x/2</td><td>Деление</td></tr>
+        <tr><td>^</td><td>x^2</td><td>Возведение в степень</td></tr>
+        <tr><td>-</td><td>-y</td><td>Унарный минус</td></tr>
     </table>
 
-    <h2>РџРѕРґРґРµСЂР¶РёРІР°РµРјС‹Рµ С„СѓРЅРєС†РёРё</h2>
+    <h2>Поддерживаемые функции</h2>
     <table>
-        <tr><th>Р¤СѓРЅРєС†РёСЏ</th><th>РћРїРёСЃР°РЅРёРµ</th><th>РџСЂРёРјРµСЂ</th></tr>
-        <tr><td>sin(x)</td><td>РЎРёРЅСѓСЃ</td><td>sin(x)</td></tr>
-        <tr><td>cos(x)</td><td>РљРѕСЃРёРЅСѓСЃ</td><td>cos(x)</td></tr>
-        <tr><td>tan(x), tg(x)</td><td>РўР°РЅРіРµРЅСЃ</td><td>tan(x)</td></tr>
-        <tr><td>cot(x), ctg(x)</td><td>РљРѕС‚Р°РЅРіРµРЅСЃ</td><td>ctg(x)</td></tr>
-        <tr><td>asin(x), arcsin(x)</td><td>РђСЂРєСЃРёРЅСѓСЃ</td><td>arcsin(x)</td></tr>
-        <tr><td>acos(x), arccos(x)</td><td>РђСЂРєРєРѕСЃРёРЅСѓСЃ</td><td>arccos(x)</td></tr>
-        <tr><td>atan(x), arctan(x)</td><td>РђСЂРєС‚Р°РЅРіРµРЅСЃ</td><td>atan(x)</td></tr>
-        <tr><td>exp(x)</td><td>Р­РєСЃРїРѕРЅРµРЅС‚Р° eЛЈ</td><td>exp(x)</td></tr>
-        <tr><td>ln(x)</td><td>РќР°С‚СѓСЂР°Р»СЊРЅС‹Р№ Р»РѕРіР°СЂРёС„Рј</td><td>ln(x)</td></tr>
-        <tr><td>log(x), lg(x)</td><td>Р”РµСЃСЏС‚РёС‡РЅС‹Р№ Р»РѕРіР°СЂРёС„Рј</td><td>log(x)</td></tr>
-        <tr><td>sqrt(x)</td><td>РљРІР°РґСЂР°С‚РЅС‹Р№ РєРѕСЂРµРЅСЊ</td><td>sqrt(x)</td></tr>
-        <tr><td>abs(x)</td><td>РњРѕРґСѓР»СЊ</td><td>abs(x)</td></tr>
-        <tr><td>sinh(x), sh(x)</td><td>Р“РёРїРµСЂР±РѕР»РёС‡РµСЃРєРёР№ СЃРёРЅСѓСЃ</td><td>sinh(x)</td></tr>
-        <tr><td>cosh(x), ch(x)</td><td>Р“РёРїРµСЂР±РѕР»РёС‡РµСЃРєРёР№ РєРѕСЃРёРЅСѓСЃ</td><td>cosh(x)</td></tr>
-        <tr><td>tanh(x), th(x)</td><td>Р“РёРїРµСЂР±РѕР»РёС‡РµСЃРєРёР№ С‚Р°РЅРіРµРЅСЃ</td><td>tanh(x)</td></tr>
+        <tr><th>Функция</th><th>Описание</th><th>Пример</th></tr>
+        <tr><td>sin(x)</td><td>Синус</td><td>sin(x)</td></tr>
+        <tr><td>cos(x)</td><td>Косинус</td><td>cos(x)</td></tr>
+        <tr><td>tan(x), tg(x)</td><td>Тангенс</td><td>tan(x)</td></tr>
+        <tr><td>cot(x), ctg(x)</td><td>Котангенс</td><td>ctg(x)</td></tr>
+        <tr><td>asin(x), arcsin(x)</td><td>Арксинус</td><td>arcsin(x)</td></tr>
+        <tr><td>acos(x), arccos(x)</td><td>Арккосинус</td><td>arccos(x)</td></tr>
+        <tr><td>atan(x), arctan(x)</td><td>Арктангенс</td><td>atan(x)</td></tr>
+        <tr><td>exp(x)</td><td>Экспонента e?</td><td>exp(x)</td></tr>
+        <tr><td>ln(x)</td><td>Натуральный логарифм</td><td>ln(x)</td></tr>
+        <tr><td>log(x), lg(x)</td><td>Десятичный логарифм</td><td>log(x)</td></tr>
+        <tr><td>sqrt(x)</td><td>Квадратный корень</td><td>sqrt(x)</td></tr>
+        <tr><td>abs(x)</td><td>Модуль</td><td>abs(x)</td></tr>
+        <tr><td>sinh(x), sh(x)</td><td>Гиперболический синус</td><td>sinh(x)</td></tr>
+        <tr><td>cosh(x), ch(x)</td><td>Гиперболический косинус</td><td>cosh(x)</td></tr>
+        <tr><td>tanh(x), th(x)</td><td>Гиперболический тангенс</td><td>tanh(x)</td></tr>
     </table>
 
-    <h2>РќРµСЏРІРЅРѕРµ СѓРјРЅРѕР¶РµРЅРёРµ</h2>
-    <p>РџСЂРѕРіСЂР°РјРјР° Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РІСЃС‚Р°РІР»СЏРµС‚ Р·РЅР°Рє СѓРјРЅРѕР¶РµРЅРёСЏ РІ РѕС‡РµРІРёРґРЅС‹С… СЃР»СѓС‡Р°СЏС…:</p>
+    <h2>Неявное умножение</h2>
+    <p>Программа автоматически вставляет знак умножения в очевидных случаях:</p>
     <table>
-        <tr><th>Р’РІРѕРґ</th><th>РРЅС‚РµСЂРїСЂРµС‚Р°С†РёСЏ</th></tr>
+        <tr><th>Ввод</th><th>Интерпретация</th></tr>
         <tr><td>2x</td><td>2 * x</td></tr>
         <tr><td>2sin(x)</td><td>2 * sin(x)</td></tr>
         <tr><td>x(x+1)</td><td>x * (x + 1)</td></tr>
     </table>
 
     <div class="warn">
-        <strong>Р’РЅРёРјР°РЅРёРµ:</strong> РґР»СЏ РґРµР»РµРЅРёСЏ РёСЃРїРѕР»СЊР·СѓР№ СЃРєРѕР±РєРё.
-        РќР°РїСЂРёРјРµСЂ: <code>1/(x+y)</code>, Р° РЅРµ <code>1/x+y</code>
-        (РїРѕСЃР»РµРґРЅРµРµ РІС‹С‡РёСЃР»РёС‚СЃСЏ РєР°Рє <code>(1/x) + y</code>).
+        <strong>Внимание:</strong> для деления используй скобки.
+        Например: <code>1/(x+y)</code>, а не <code>1/x+y</code>
+        (последнее вычислится как <code>(1/x) + y</code>).
     </div>
 </body>
 </html>

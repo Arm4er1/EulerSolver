@@ -1,7 +1,7 @@
-п»ї<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <HTML>
 <HEAD>
-<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
 </HEAD>
 <BODY>
 <OBJECT type="text/site properties">
@@ -9,27 +9,27 @@
 </OBJECT>
 <UL>
     <LI><OBJECT type="text/sitemap">
-        <param name="Name" value="Рћ РїСЂРѕРіСЂР°РјРјРµ">
+        <param name="Name" value="О программе">
         <param name="Local" value="index.html">
     </OBJECT>
     <LI><OBJECT type="text/sitemap">
-        <param name="Name" value="РњРµС‚РѕРґ Р­Р№Р»РµСЂР°-РљРѕС€Рё">
+        <param name="Name" value="Метод Эйлера-Коши">
         <param name="Local" value="method.html">
     </OBJECT>
     <LI><OBJECT type="text/sitemap">
-        <param name="Name" value="РЎРёРЅС‚Р°РєСЃРёСЃ РІС‹СЂР°Р¶РµРЅРёР№">
+        <param name="Name" value="Синтаксис выражений">
         <param name="Local" value="syntax.html">
     </OBJECT>
     <LI><OBJECT type="text/sitemap">
-        <param name="Name" value="РџСЂРёРјРµСЂС‹ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ">
+        <param name="Name" value="Примеры использования">
         <param name="Local" value="examples.html">
     </OBJECT>
     <LI><OBJECT type="text/sitemap">
-        <param name="Name" value="РЎСЂР°РІРЅРµРЅРёРµ РјРµС‚РѕРґРѕРІ">
+        <param name="Name" value="Сравнение методов">
         <param name="Local" value="comparison.html">
     </OBJECT>
     <LI><OBJECT type="text/sitemap">
-        <param name="Name" value="РЎСЂР°РІРЅРµРЅРёРµ СЃ MATLAB">
+        <param name="Name" value="Сравнение с MATLAB">
         <param name="Local" value="matlab.html">
     </OBJECT>
 </UL>

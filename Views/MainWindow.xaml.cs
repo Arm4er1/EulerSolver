@@ -90,6 +90,15 @@ namespace EulerSolver.Views
             OpenHelp();
         }
 
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.F1)
+            {
+                e.Handled = true;
+                OpenHelp();
+            }
+        }
+
         private void OpenHelp()
         {
             try
